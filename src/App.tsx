@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { lazy } from 'react';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+
+const AmountInWords = lazy(() => import('./pages/Amount_in_words'));
+const CurrencyCalc = lazy(() => import('./pages/Currency_calculator'));
+const Home = lazy(() => import('./pages/Home'));
+const IndividualActivityTaxCalc = lazy(
+  () => import('./pages/Individual_activity_tax_calculator')
+);
+const VATCalc = lazy(() => import('./pages/VAT_calculator'));
+const SalaryTaxCalc = lazy(() => import('./pages/Salary_and_tax_calculator'));
 
 function App() {
-  const [count, setCount] = useState(0)
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      // element: <Layout />, //atkomentuoti kai bus Layout
+      children: [
+        { index: true, element: <Home /> },
+        { path: 'amount-in-words', element: <AmountInWords /> },
+        { path: 'currency-calculator', element: <CurrencyCalc /> },
+        {
+          path: 'individual-activity-tax-calculator',
+          element: <IndividualActivityTaxCalc />,
+        },
+        { path: 'PVM-calculator', element: <VATCalc /> },
+        { path: 'salary-and-tax-calculator', element: <SalaryTaxCalc /> },
+      ],
+    },
+  ]);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;

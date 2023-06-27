@@ -7,7 +7,7 @@ const Home = lazy(() => import('./pages/Home'));
 const IndividualActivityTaxCalc = lazy(
   () => import('./pages/Individual_activity_tax_calculator')
 );
-const PVMCalc = lazy(() => import('./pages/PVM_calculator'));
+const VATCalc = lazy(() => import('./pages/VAT_calculator'));
 const SalaryTaxCalc = lazy(() => import('./pages/Salary_and_tax_calculator'));
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
           path: 'individual-activity-tax-calculator',
           element: <IndividualActivityTaxCalc />,
         },
-        { path: 'PVM-calculator', element: <PVMCalc /> },
+        { path: 'PVM-calculator', element: <VATCalc /> },
         { path: 'salary-and-tax-calculator', element: <SalaryTaxCalc /> },
       ],
     },

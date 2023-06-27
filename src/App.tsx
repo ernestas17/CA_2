@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { ReactNode, Suspense, lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/Layout';
 
@@ -11,22 +11,72 @@ const IndividualActivityTaxCalc = lazy(
 const VATCalc = lazy(() => import('./pages/VAT_calculator'));
 const SalaryTaxCalc = lazy(() => import('./pages/Salary_and_tax_calculator'));
 
+//GV: is this the right place? Maybe move to '/shared/'?
+interface IAppRoute {
+  title: string;
+  includeInNav?: boolean;
+  routerParams: {
+    element: ReactNode;
+    index?: boolean;
+    path?: string;
+  };
+}
+
+export const APP_ROUTES: IAppRoute[] = [
+  {
+    title: 'Pagrindinis',
+    includeInNav: true,
+    routerParams: { index: true, element: <Home /> },
+  },
+  {
+    title: 'Atlyginimo ir mokesčIų skaičiuoklė',
+    includeInNav: true,
+    routerParams: {
+      path: 'salary-and-tax-calculator',
+      element: <SalaryTaxCalc />,
+    },
+  },
+  {
+    title: 'Individualios veiklos mokesčių skaičiuoklė',
+    includeInNav: true,
+    routerParams: {
+      path: 'individual-activity-tax-calculator',
+      element: <IndividualActivityTaxCalc />,
+    },
+  },
+  {
+    title: 'PVM skaičiuoklė',
+    includeInNav: true,
+    routerParams: { path: 'PVM-calculator', element: <VATCalc /> },
+  },
+  {
+    title: 'Valiutų skaičiuoklė',
+    includeInNav: true,
+    routerParams: { path: 'currency-calculator', element: <CurrencyCalc /> },
+  },
+  {
+    title: 'Suma žodžiais',
+    includeInNav: true,
+    routerParams: { path: 'amount-in-words', element: <AmountInWords /> },
+  },
+];
+
 function App() {
   const router = createBrowserRouter([
     {
       path: '/',
       element: <Layout />,
-      children: [
-        { index: true, element: <Home /> },
-        { path: 'amount-in-words', element: <AmountInWords /> },
-        { path: 'currency-calculator', element: <CurrencyCalc /> },
-        {
-          path: 'individual-activity-tax-calculator',
-          element: <IndividualActivityTaxCalc />,
-        },
-        { path: 'PVM-calculator', element: <VATCalc /> },
-        { path: 'salary-and-tax-calculator', element: <SalaryTaxCalc /> },
-      ],
+      children: APP_ROUTES.map((route) => {
+        // https://stackoverflow.com/q/72167518
+        return {
+          ...route.routerParams,
+          element: (
+            <Suspense fallback={<span>loading...</span>}>
+              {route.routerParams.element}
+            </Suspense>
+          ),
+        };
+      }),
     },
   ]);
 

@@ -1,14 +1,20 @@
 import { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { StyledNav, StyledLink } from './styles';
 
 export function NavbarItem({ path, text }: { path: string; text: string }) {
   return (
-    <Link className='navbar-item' to={path}>
+    <StyledLink className='navbar-item' to={path}>
       {text}
-    </Link>
+    </StyledLink>
   );
 }
 
 export default function Navbar({ children }: { children: ReactNode }) {
-  return <nav className='navbar'>{children}</nav>;
+  return (
+    <StyledNav className='navbar'>
+      <div className='navbar-menu'>
+        <div className='navbar-start'>{children}</div>
+      </div>
+    </StyledNav>
+  );
 }

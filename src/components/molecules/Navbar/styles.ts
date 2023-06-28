@@ -18,8 +18,6 @@ export const StyledNav = styled.nav`
   }
 
   @media screen and (min-width: 1024px) {
-    min-height: 3.25rem;
-
     align-items: stretch;
     display: flex;
 

@@ -1,5 +1,5 @@
-import Navbar from '../Navbar';
-import { NavbarItem } from '../Navbar/Navbar';
+import Navbar from '../../molecules/Navbar';
+import { NavbarItem } from '../../molecules/Navbar/Navbar';
 
 export default function Header() {
   //TODO: useState to indicate selected page

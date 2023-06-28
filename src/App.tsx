@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Layout from './components/Layout';
+import Layout from './components/templates/Layout';
 
 const AmountInWords = lazy(() => import('./pages/Amount_in_words'));
 const CurrencyCalc = lazy(() => import('./pages/Currency_calculator'));

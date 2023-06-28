@@ -1,17 +1,14 @@
+import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { APP_ROUTES } from '../../App';
 
-export default function Navbar() {
+export function NavbarItem({ path, text }: { path: string; text: string }) {
   return (
-    <nav>
-      {APP_ROUTES.filter((route) => route.includeInNav).map((route) => (
-        <Link
-          key={`nav-${route.routerParams.path}`}
-          to={route.routerParams.path ?? (route.routerParams.index ? '/' : '#')}
-        >
-          {route.title}
-        </Link>
-      ))}
-    </nav>
+    <Link className='navbar-item' to={path}>
+      {text}
+    </Link>
   );
+}
+
+export default function Navbar({ children }: { children: ReactNode }) {
+  return <nav className='navbar'>{children}</nav>;
 }

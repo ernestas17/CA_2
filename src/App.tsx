@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Layout from './components/templates/Layout';
 
 const AmountInWords = lazy(() => import('./pages/Amount_in_words'));
 const CurrencyCalc = lazy(() => import('./pages/Currency_calculator'));
@@ -14,7 +15,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      // element: <Layout />, //atkomentuoti kai bus Layout
+      element: <Layout />,
       children: [
         { index: true, element: <Home /> },
         { path: 'amount-in-words', element: <AmountInWords /> },

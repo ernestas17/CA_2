@@ -10,6 +10,7 @@ const IndividualActivityTaxCalc = lazy(
 );
 const VATCalc = lazy(() => import('./pages/VAT_calculator'));
 const SalaryTaxCalc = lazy(() => import('./pages/Salary_and_tax_calculator'));
+const Sandbox = lazy(() => import('./pages/Sandbox'));
 
 function App() {
   const router = createBrowserRouter([
@@ -26,6 +27,7 @@ function App() {
         },
         { path: 'PVM-calculator', element: <VATCalc /> },
         { path: 'salary-and-tax-calculator', element: <SalaryTaxCalc /> },
+        { path: 'sandbox', element: <Sandbox /> },
       ],
     },
   ]);

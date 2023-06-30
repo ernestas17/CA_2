@@ -1,10 +1,11 @@
-import {
-  useState,
-  ReactNode,
-  // useEffect,
-  SyntheticEvent,
-  KeyboardEvent,
-} from 'react';
+/*
+Strategy for making a select box from scratch in React
+ - Select options are passed as props, preferably as children elements, only with data relevant to business logic
+ - Selected item state is tracked with numeric index, making it easy to navigate with arrow keys
+ - Data from currently selected item should be displayed in the box header
+*/
+
+import { useState, ReactNode, SyntheticEvent, KeyboardEvent } from 'react';
 import React from 'react';
 import {
   StyledSelectBox,
@@ -13,29 +14,27 @@ import {
 } from './styles';
 
 interface ISelectItemProps {
-  uniqueValue: string | number | boolean;
+  value: string | number | boolean;
   displayTitle?: string;
-  optionIndex?: number;
   isActive?: boolean;
-  callback?: (refIndex: number) => void;
+  callback?: () => void;
 }
 
 export function SelectItem({
-  uniqueValue,
-  displayTitle: displayTitle,
-  optionIndex = 0,
+  value,
+  displayTitle,
   isActive = false,
   callback,
 }: ISelectItemProps) {
   const onSelect = (e: SyntheticEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    callback && callback(optionIndex);
+    callback && callback();
   };
 
   return (
     <StyledSelectItem $isActive={isActive} onClick={onSelect}>
-      {displayTitle}
+      {displayTitle ?? value.toString()}
     </StyledSelectItem>
   );
 }
@@ -55,6 +54,10 @@ export default function Select({ children }: ISelectProps) {
   const toggleExpand = () => setExpanded((prev) => !prev);
   const expand = () => setExpanded(true);
   const collapse = () => setExpanded(false);
+
+  const optionRefs = (Array.isArray(children) ? children : []).map(() =>
+    React.createRef<HTMLElement>()
+  );
 
   // const getValueByIndex = (index: number | null) => {};
 
@@ -106,10 +109,19 @@ export default function Select({ children }: ISelectProps) {
     >
       <div className='select-header' onClick={clickHandler}>
         <span>
-          {Array.isArray(children) &&
-            (children.find((child) => child.props.optionIndex === activeIndex)
-              ?.props?.text ??
-              '')}
+          {/* should not access ref in render */}
+          {/* {activeIndex ? optionRefs[activeIndex].current?.innerHTML : ''} */}
+          {(() => {
+            const selectedChildProp =
+              activeIndex && Array.isArray(children) && children[activeIndex];
+            if (!selectedChildProp?.props) {
+              return '';
+            }
+            return (
+              selectedChildProp.props.displayTitle ??
+              selectedChildProp.props.value.toString()
+            );
+          })()}
         </span>
         <span className='icon'>
           <i className='fas fa-angle-down' aria-hidden='true'></i>
@@ -121,14 +133,13 @@ export default function Select({ children }: ISelectProps) {
           {Array.isArray(children) &&
             children.map((child, index) =>
               React.cloneElement(child, {
-                displayTitle:
-                  child.props.displayTitle ??
-                  child.props.uniqueValue.toString(),
                 key: `itm${index}`,
-                optionIndex: index,
-                isActive: child.props.optionIndex === activeIndex,
-                callback: (num) => {
-                  setActiveIndex(num);
+                ref: optionRefs[index],
+                displayTitle:
+                  child.props.displayTitle ?? child.props.value.toString(),
+                isActive: activeIndex === index,
+                callback: () => {
+                  setActiveIndex(index);
                   collapse();
                 },
               } as Partial<ISelectItemProps>)

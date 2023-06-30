@@ -7,8 +7,13 @@ interface ILabelProps {
 
 const Checkbox = ({ label }: ILabelProps) => {
   const [isChecked, setIsChecked] = useState(false);
+  const checkboxId = `checkbox-${label}`;
 
   const checkHandler = () => {
+    setIsChecked(!isChecked);
+  };
+
+  const labelClickHandler = () => {
     setIsChecked(!isChecked);
   };
 
@@ -16,11 +21,13 @@ const Checkbox = ({ label }: ILabelProps) => {
     <div>
       <StyledCheckboxInput
         type='checkbox'
-        id='checkbox'
+        id={checkboxId}
         checked={isChecked}
         onChange={checkHandler}
       />
-      <StyledCheckboxLabel htmlFor='checkbox'>{label}</StyledCheckboxLabel>
+      <StyledCheckboxLabel htmlFor='checkbox' onClick={labelClickHandler}>
+        {label}
+      </StyledCheckboxLabel>
     </div>
   );
 };

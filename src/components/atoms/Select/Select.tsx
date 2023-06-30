@@ -5,7 +5,14 @@ Strategy for making a select box from scratch in React
  - Data from currently selected item should be displayed in the box header
 */
 
-import { useState, ReactNode, SyntheticEvent, KeyboardEvent } from 'react';
+import {
+  useState,
+  ReactNode,
+  SyntheticEvent,
+  KeyboardEvent,
+  useRef,
+  useEffect,
+} from 'react';
 import React from 'react';
 import {
   StyledSelectBox,
@@ -13,16 +20,20 @@ import {
   StyledSelectItem,
 } from './styles';
 
+export type ValidValueType = string | number | boolean | null;
+
 interface ISelectItemProps {
-  value: string | number | boolean;
-  displayTitle?: string;
+  children: ReactNode;
+  value: ValidValueType;
+  innerRef?: React.LegacyRef<HTMLElement>;
   isActive?: boolean;
   callback?: () => void;
 }
 
 export function SelectItem({
+  children,
   value,
-  displayTitle,
+  innerRef,
   isActive = false,
   callback,
 }: ISelectItemProps) {
@@ -33,18 +44,18 @@ export function SelectItem({
   };
 
   return (
-    <StyledSelectItem $isActive={isActive} onClick={onSelect}>
-      {displayTitle ?? value.toString()}
+    <StyledSelectItem ref={innerRef} $isActive={isActive} onClick={onSelect}>
+      {children}
     </StyledSelectItem>
   );
 }
 
 interface ISelectProps {
   children: ReactNode;
-  // setvalue?: React.Dispatch<React.SetStateAction<string | number | boolean>>;
+  setvalue?: React.Dispatch<React.SetStateAction<ValidValueType>>;
 }
 
-export default function Select({ children }: ISelectProps) {
+export default function Select({ children, setvalue: setValue }: ISelectProps) {
   const [expanded, setExpanded] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
@@ -55,11 +66,47 @@ export default function Select({ children }: ISelectProps) {
   const expand = () => setExpanded(true);
   const collapse = () => setExpanded(false);
 
-  const optionRefs = (Array.isArray(children) ? children : []).map(() =>
-    React.createRef<HTMLElement>()
-  );
+  const previousIndexRef = useRef<number | null>(null);
 
-  // const getValueByIndex = (index: number | null) => {};
+  // https://stackoverflow.com/a/57810772
+  const optionElementsRef = useRef<HTMLElement[]>([]);
+  const optionValuesRef = useRef<Array<ValidValueType>>([]);
+  const selectedDisplayElementRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const displayElement = selectedDisplayElementRef.current;
+    if (displayElement) {
+      while (displayElement.firstChild) {
+        displayElement.removeChild(displayElement.firstChild);
+      }
+
+      if (activeIndex !== null) {
+        const activeItem = optionElementsRef.current[activeIndex];
+        if (activeItem) {
+          // copy html content of activeItem to display in selectbox header
+          displayElement.appendChild(activeItem.cloneNode(true));
+        }
+      }
+    }
+  }, [activeIndex, optionElementsRef, optionValuesRef]);
+
+  /*
+  Tracking state changes
+  Need to trigger effect when:
+    - activeIndex changes, but only when expanded === false
+    - expanded changes to false and activeIndex is not the same as before expansion 
+  */
+
+  useEffect(() => {
+    if (setValue && !expanded && activeIndex !== previousIndexRef.current) {
+      console.log('!');
+
+      setValue(
+        activeIndex === null ? null : optionValuesRef.current[activeIndex]
+      );
+      previousIndexRef.current = activeIndex;
+    }
+  }, [activeIndex, expanded]);
 
   const clickHandler = (e: SyntheticEvent) => {
     e.stopPropagation();
@@ -108,21 +155,7 @@ export default function Select({ children }: ISelectProps) {
       onKeyDown={keyboardHandler}
     >
       <div className='select-header' onClick={clickHandler}>
-        <span>
-          {/* should not access ref in render */}
-          {/* {activeIndex ? optionRefs[activeIndex].current?.innerHTML : ''} */}
-          {(() => {
-            const selectedChildProp =
-              activeIndex && Array.isArray(children) && children[activeIndex];
-            if (!selectedChildProp?.props) {
-              return '';
-            }
-            return (
-              selectedChildProp.props.displayTitle ??
-              selectedChildProp.props.value.toString()
-            );
-          })()}
-        </span>
+        <span ref={selectedDisplayElementRef}></span>
         <span className='icon'>
           <i className='fas fa-angle-down' aria-hidden='true'></i>
         </span>
@@ -130,13 +163,15 @@ export default function Select({ children }: ISelectProps) {
       <StyledSelectDropdown $isActive={expanded}>
         <ul className='dropdown-content'>
           {/* unconventional practice: accessing values from children props and cloning with modified props */}
+          {/* https://stackoverflow.com/a/57810772 */}
           {Array.isArray(children) &&
             children.map((child, index) =>
               React.cloneElement(child, {
                 key: `itm${index}`,
-                ref: optionRefs[index],
-                displayTitle:
-                  child.props.displayTitle ?? child.props.value.toString(),
+                innerRef: (el: HTMLElement) => {
+                  optionElementsRef.current[index] = el;
+                  optionValuesRef.current[index] = child.props.value;
+                },
                 isActive: activeIndex === index,
                 callback: () => {
                   setActiveIndex(index);

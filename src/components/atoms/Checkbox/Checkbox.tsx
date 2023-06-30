@@ -13,10 +13,6 @@ const Checkbox = ({ label }: ILabelProps) => {
     setIsChecked(!isChecked);
   };
 
-  const labelClickHandler = () => {
-    setIsChecked(!isChecked);
-  };
-
   return (
     <div>
       <StyledCheckboxInput
@@ -25,9 +21,7 @@ const Checkbox = ({ label }: ILabelProps) => {
         checked={isChecked}
         onChange={checkHandler}
       />
-      <StyledCheckboxLabel htmlFor='checkbox' onClick={labelClickHandler}>
-        {label}
-      </StyledCheckboxLabel>
+      <StyledCheckboxLabel htmlFor={checkboxId}>{label}</StyledCheckboxLabel>
     </div>
   );
 };

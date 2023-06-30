@@ -3,10 +3,11 @@ import { StyledRadio, StyledRadioLabelWrapper } from "./styles";
 
 type RadioProps = {
   label: string;
+  name: string;
   checked?: boolean;
 };
 
-const Radio = ({ label, checked }: RadioProps) => {
+const Radio = ({ label, name, checked }: RadioProps) => {
   const radioRef = useRef<HTMLInputElement>(null);
 
   const handleLabelClick = () => {
@@ -20,7 +21,7 @@ const Radio = ({ label, checked }: RadioProps) => {
       <StyledRadio
         ref={radioRef}
         type="radio"
-        name="answer"
+        name={name}
         defaultChecked={checked}
       />
       {label}

@@ -44,20 +44,39 @@ export function SelectItem({
   };
 
   return (
-    <StyledSelectItem ref={innerRef} $isActive={isActive} onClick={onSelect}>
-      {children}
+    <StyledSelectItem
+      className='dropdown-item'
+      ref={innerRef}
+      $isActive={isActive}
+      onClick={onSelect}
+    >
+      <div className='select-item-content'>{children}</div>
     </StyledSelectItem>
   );
 }
 
 interface ISelectProps {
   children: ReactNode;
+  initialIndex?: number | null;
   setvalue?: React.Dispatch<React.SetStateAction<ValidValueType>>;
+
+  style?: {
+    isRight?: boolean;
+    isUp?: boolean;
+    isRounded?: boolean;
+  };
 }
 
-export default function Select({ children, setvalue: setValue }: ISelectProps) {
+export default function Select({
+  children,
+  initialIndex,
+  setvalue,
+  style,
+}: ISelectProps) {
   const [expanded, setExpanded] = useState(false);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(
+    initialIndex ?? 0
+  );
 
   // activeIndex should not get confirmed while expanded
   //TODO: make externally available callback to handle "submit" state change
@@ -84,7 +103,7 @@ export default function Select({ children, setvalue: setValue }: ISelectProps) {
         const activeItem = optionElementsRef.current[activeIndex];
         if (activeItem) {
           // copy html content of activeItem to display in selectbox header
-          displayElement.appendChild(activeItem.cloneNode(true));
+          displayElement.appendChild(activeItem.firstChild.cloneNode(true));
         }
       }
     }
@@ -98,10 +117,8 @@ export default function Select({ children, setvalue: setValue }: ISelectProps) {
   */
 
   useEffect(() => {
-    if (setValue && !expanded && activeIndex !== previousIndexRef.current) {
-      console.log('!');
-
-      setValue(
+    if (setvalue && !expanded && activeIndex !== previousIndexRef.current) {
+      setvalue(
         activeIndex === null ? null : optionValuesRef.current[activeIndex]
       );
       previousIndexRef.current = activeIndex;
@@ -153,14 +170,21 @@ export default function Select({ children, setvalue: setValue }: ISelectProps) {
       tabIndex={0}
       onBlur={blurHandler}
       onKeyDown={keyboardHandler}
+      className='dropdown'
+      $isRight={style?.isRight}
+      $isUp={style?.isUp}
+      $isRounded={style?.isRounded}
     >
-      <div className='select-header' onClick={clickHandler}>
-        <span ref={selectedDisplayElementRef}></span>
-        <span className='icon'>
-          <i className='fas fa-angle-down' aria-hidden='true'></i>
-        </span>
+      <div className='dropdown-trigger'>
+        <div className='button' onClick={clickHandler}>
+          <span ref={selectedDisplayElementRef}></span>
+          <span className='icon'>
+            {/* <FontAwesomeIcon icon={faAngleDown} /> */}
+            <i className='fas fa-angle-down' aria-hidden='true'></i>
+          </span>
+        </div>
       </div>
-      <StyledSelectDropdown $isActive={expanded}>
+      <StyledSelectDropdown className='dropdown-menu' $isActive={expanded}>
         <ul className='dropdown-content'>
           {/* unconventional practice: accessing values from children props and cloning with modified props */}
           {/* https://stackoverflow.com/a/57810772 */}

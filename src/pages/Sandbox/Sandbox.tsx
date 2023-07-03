@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import Input from '../../components/atoms/Input';
 import Radio from '../../components/atoms/Radio';
-// import Select from '../../components/atoms/Select';
-// import {
-//   SelectItem,
-//   ValidValueType,
-// } from '../../components/atoms/Select/Select';
+import Select from '../../components/atoms/Select';
+import {
+  SelectItem,
+  ValidValueType,
+} from '../../components/atoms/Select/Select';
 
 const Sandbox = () => {
   const [textInputVal, setTextInputVal] = useState('initialValue');
-  // const [selectedVal, setSelectedVal] = useState<ValidValueType>(null);
+  const [selectedVal1, setSelectedVal1] = useState<ValidValueType>(null);
+  const [selectedVal2, setSelectedVal2] = useState<ValidValueType>(null);
 
   return (
     <div>
@@ -56,24 +57,42 @@ const Sandbox = () => {
         </div>
       </section>
       <br />
-      {/* <section>
+      <section>
         <h2>Select</h2>
         <p>
-          Selected: <span>{selectedVal}</span>
+          Selected: <span>{selectedVal1}</span> <span>{selectedVal2}</span>
         </p>
         <br />
-        <Select setvalue={setSelectedVal}>
+        <Select setvalue={setSelectedVal1}>
           <SelectItem value={1}>item 1</SelectItem>
           <SelectItem value={2}>
             <a href='#'>item 2</a>
           </SelectItem>
           <SelectItem value={3}>
-            <span>item 3</span> <img src='vite.svg' alt='[img]' height={16} />
+            <img src='vite.svg' alt='[img]' height={16} />
+            <span>item 3</span>
           </SelectItem>
-          <SelectItem value={4}>item 4</SelectItem>
+          <SelectItem value={4}>
+            <span>
+              <i className='fa-solid fa-font-awesome'></i>
+            </span>
+            <span>item 4</span>
+          </SelectItem>
           <SelectItem value={5}>item 5</SelectItem>
         </Select>
-      </section> */}
+        <br />
+        <Select
+          style={{ isRounded: true }}
+          initialIndex={0}
+          setvalue={setSelectedVal2}
+        >
+          <SelectItem value={null}>select...</SelectItem>
+          <SelectItem value={'A'}>item A</SelectItem>
+          <SelectItem value={'B'}>item B</SelectItem>
+          <SelectItem value={'C'}>item C</SelectItem>
+          <SelectItem value={'D'}>item D</SelectItem>
+        </Select>
+      </section>
     </div>
   );
 };

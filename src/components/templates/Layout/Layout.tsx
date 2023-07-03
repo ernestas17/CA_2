@@ -7,7 +7,7 @@ export default function Layout() {
   return (
     <>
       <Header />
-      <main>
+      <main className='section'>
         {/* Outlet is where the children nodes defined in Routes "element" will go depending on path */}
         <Outlet />
       </main>

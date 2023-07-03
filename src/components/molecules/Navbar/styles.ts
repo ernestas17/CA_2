@@ -42,10 +42,17 @@ export const StyledNav = styled.nav`
     }
   }
 
+  /* deviating from Bulma standard */
+
+  justify-content: center;
+
+  .navbar-menu {
+    flex-grow: 0;
+  }
+
   .navbar-menu,
   .navbar-start,
   .navbar-end {
-    /* deviating from Bulma standard */
     flex-shrink: 1;
     flex-wrap: wrap;
   }

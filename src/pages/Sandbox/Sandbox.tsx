@@ -82,7 +82,7 @@ const Sandbox = () => {
         </Select>
         <br />
         <Select
-          style={{ isRounded: true }}
+          style={{ isRounded: true, fullWidth: true }}
           initialIndex={0}
           setvalue={setSelectedVal2}
         >

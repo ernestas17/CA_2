@@ -64,6 +64,7 @@ interface ISelectProps {
     isRight?: boolean;
     isUp?: boolean;
     isRounded?: boolean;
+    fullWidth?: boolean;
   };
 }
 
@@ -190,6 +191,7 @@ export default function Select({
       $isRight={style?.isRight}
       $isUp={style?.isUp}
       $isRounded={style?.isRounded}
+      $fullWidth={style?.fullWidth}
     >
       <div className='dropdown-trigger'>
         <div className='button' onClick={clickHandler}>

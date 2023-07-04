@@ -1,8 +1,7 @@
+import AmountInWordsLogic from "../../components/organisms/AmuontInWordslogic";
 
 const AmountInWords = () => {
-  return (
-    <div>AmountInWords</div>
-  )
-}
+  return <AmountInWordsLogic />;
+};
 
-export default AmountInWords
+export default AmountInWords;

@@ -34,16 +34,9 @@ export const StyledVatInputsContainer = styled.div`
     text-align: end;
   }
 
-  div > div > div > span {
-    width: 97px;
-
-    text-align: end;
+  .dropdown-content {
+    width: 85px;
   }
-  div > div {
-    text-align: end;
-  }
-
-  /* background-color: lightgray; */
 `;
 
 export const StyledVatOutputsContainer = styled.div`
@@ -55,13 +48,13 @@ export const StyledVatOutputsContainer = styled.div`
 
   p {
     font-size: 20px;
+
+    cursor: default;
   }
 
   div {
     border-bottom: 1px solid #ccc;
   }
-
-  /* background-color: lightyellow; */
 `;
 
 export const StyledVatContentBox = styled.div`

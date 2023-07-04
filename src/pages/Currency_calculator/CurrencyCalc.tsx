@@ -1,9 +1,7 @@
-
+import CurrencyCalcComponent from '../../components/organisms/CurrencyCalc';
 
 const CurrencyCalc = () => {
-  return (
-    <div>CurrencyCalc</div>
-  )
-}
+  return <CurrencyCalcComponent />;
+};
 
-export default CurrencyCalc
+export default CurrencyCalc;

@@ -9,6 +9,7 @@ import Input from '../../atoms/Input';
 import Select from '../../atoms/Select';
 import { SelectItem } from '../../atoms/Select/Select';
 import { StyledCurrencyLabel } from './styles';
+import { StyledFieldWithLabel } from '../../molecules/CounterContentContainer/styles';
 const CurrencyCalc = () => {
   const [currencyList, setCurrencyList] = useState<CurrencyListType | null>(
     null
@@ -69,9 +70,10 @@ const CurrencyCalc = () => {
 
   return (
     <CounterContentContainer
+      useBuiltInStyle
       inputs={
-        <div>
-          <div>
+        <>
+          <StyledFieldWithLabel>
             <label>Turima valiuta</label>
             <Select
               setvalue={setInputCurrency}
@@ -80,16 +82,16 @@ const CurrencyCalc = () => {
             >
               {renderCurrencySelection()}
             </Select>
-          </div>
-          <div>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
             <label>Suma {inputCurrency && inputCurrency.toUpperCase()}</label>
             <Input
               type='number'
               value={inputValue}
               setvalue={setInputValue}
             ></Input>
-          </div>
-          <div>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
             <label>Norima valiuta</label>
             <Select
               setvalue={setOutputCurrency}
@@ -98,20 +100,26 @@ const CurrencyCalc = () => {
             >
               {renderCurrencySelection()}
             </Select>
-          </div>
-        </div>
+          </StyledFieldWithLabel>
+        </>
       }
       outputs={
-        <div>
-          {inputCurrency && outputCurrency && rates && (
-            <div>
-              <span>
-                {rates[outputCurrency] && rates[outputCurrency] * inputValue}
-              </span>
-              <span>{outputCurrency && outputCurrency.toUpperCase()}</span>
-            </div>
-          )}
-        </div>
+        inputCurrency && (
+          <>
+            <StyledFieldWithLabel>
+              <label>{inputCurrency && inputCurrency.toUpperCase()}</label>
+              <p>{inputValue}</p>
+            </StyledFieldWithLabel>
+            {outputCurrency && rates && (
+              <StyledFieldWithLabel>
+                <label>{outputCurrency && outputCurrency.toUpperCase()}</label>
+                <p>
+                  {rates[outputCurrency] && rates[outputCurrency] * inputValue}
+                </p>
+              </StyledFieldWithLabel>
+            )}
+          </>
+        )
       }
     />
   );

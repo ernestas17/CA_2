@@ -11,10 +11,13 @@ export const StyledSelectBox = styled.div<{
   $isSmall?: boolean;
   $isMedium?: boolean;
   $isLarge?: boolean;
+  $fullWidth?: boolean;
 }>`
   display: inline-flex;
   position: relative;
   vertical-align: top;
+
+  width: ${(props) => (props.$fullWidth ? '100%' : 'initial')};
 
   /* TODO: move button style to another reusable component */
   .button {
@@ -120,7 +123,7 @@ export const StyledSelectBox = styled.div<{
     bottom: ${(props) => (props.$isUp ? '100%' : 'initial')};
     padding-bottom: ${(props) => (props.$isUp ? '4px' : 'initial')};
     padding-top: ${(props) => (props.$isUp ? 'initial' : 'initial')};
-    top: ${(props) => (props.$isUp ? 'auto' : 'initial')};
+    top: ${(props) => (props.$isUp ? 'auto' : '100%')};
   }
 
   .dropdown-item {
@@ -132,6 +135,15 @@ export const StyledSelectBox = styled.div<{
         : props.$isLarge
         ? '1.5rem'
         : '1rem'};
+  }
+
+  .dropdown-trigger {
+    width: ${(props) => (props.$fullWidth ? '100%' : 'initial')};
+  }
+
+  .dropdown-trigger > .button {
+    width: ${(props) => (props.$fullWidth ? '100%' : 'initial')};
+    justify-content: space-between;
   }
 `;
 

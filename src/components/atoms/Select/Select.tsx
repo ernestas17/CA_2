@@ -58,7 +58,7 @@ export function SelectItem({
 interface ISelectProps {
   children: ReactNode;
   initialIndex?: number | null;
-  setvalue?: React.Dispatch<React.SetStateAction<ValidValueType>>;
+  setvalue?: React.Dispatch<React.SetStateAction<any>>;
 
   style?: {
     isRight?: boolean;
@@ -131,7 +131,23 @@ export default function Select({
   };
 
   const keyboardHandler = (e: KeyboardEvent) => {
-    e.stopPropagation();
+    switch (e.code) {
+      case 'Enter':
+      case 'Space':
+      case 'ArrowDown':
+      case 'ArrowUp':
+        e.preventDefault();
+        e.stopPropagation();
+        break;
+      case 'Escape':
+        if (expanded) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        break;
+      default:
+        break;
+    }
     switch (e.code) {
       case 'Escape':
         collapse();

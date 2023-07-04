@@ -120,7 +120,7 @@ export const StyledSelectBox = styled.div<{
     bottom: ${(props) => (props.$isUp ? '100%' : 'initial')};
     padding-bottom: ${(props) => (props.$isUp ? '4px' : 'initial')};
     padding-top: ${(props) => (props.$isUp ? 'initial' : 'initial')};
-    top: ${(props) => (props.$isUp ? 'auto' : 'initial')};
+    top: ${(props) => (props.$isUp ? 'auto' : '100%')};
   }
 
   .dropdown-item {

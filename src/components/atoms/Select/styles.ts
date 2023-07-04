@@ -147,7 +147,10 @@ export const StyledSelectBox = styled.div<{
   }
 `;
 
-export const StyledSelectDropdown = styled.div<{ $isActive: boolean }>`
+export const StyledSelectDropdown = styled.div<{
+  $isActive: boolean;
+  $maxRows?: number;
+}>`
   display: ${(props) => (props.$isActive ? 'block' : 'none')};
   left: 0;
   min-width: 12rem;
@@ -164,6 +167,10 @@ export const StyledSelectDropdown = styled.div<{ $isActive: boolean }>`
     padding-bottom: 0.5rem;
     padding-top: 0.5rem;
   }
+
+  max-height: ${(props) =>
+    props.$maxRows ? `${2.32 * props.$maxRows}em` : 'initial'};
+  overflow-y: auto;
 `;
 
 export const StyledSelectItem = styled.li<{ $isActive: boolean }>`

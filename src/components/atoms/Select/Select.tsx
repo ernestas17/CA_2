@@ -65,6 +65,7 @@ interface ISelectProps {
     isUp?: boolean;
     isRounded?: boolean;
     fullWidth?: boolean;
+    maxRows?: number;
   };
 }
 
@@ -202,7 +203,11 @@ export default function Select({
           </span>
         </div>
       </div>
-      <StyledSelectDropdown className='dropdown-menu' $isActive={expanded}>
+      <StyledSelectDropdown
+        className='dropdown-menu'
+        $isActive={expanded}
+        $maxRows={style?.maxRows}
+      >
         <ul className='dropdown-content'>
           {/* unconventional practice: accessing values from children props and cloning with modified props */}
           {/* https://stackoverflow.com/a/57810772 */}

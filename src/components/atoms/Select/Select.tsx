@@ -82,6 +82,8 @@ export default function Select({
     initialIndex ?? 0
   );
 
+  // initialIndex only works on first render, not when loading content dynamically
+
   // activeIndex should not get confirmed while expanded
   //TODO: make externally available callback to handle "submit" state change
 
@@ -105,13 +107,19 @@ export default function Select({
 
       if (activeIndex !== null) {
         const activeItem = optionElementsRef.current[activeIndex]; //problem: this can be undefined when useEffect runs first time
-        if (activeItem) {
+        if (activeItem?.firstChild) {
           // copy html content of activeItem to display in selectbox header
           displayElement.appendChild(activeItem.firstChild.cloneNode(true));
         }
       }
     }
-  }, [activeIndex, optionElementsRef, optionValuesRef]);
+  }, [activeIndex, optionElementsRef, optionValuesRef, children]);
+
+  // useEffect(() => {
+  //   if (initialIndex) {
+  //     setActiveIndex(initialIndex);
+  //   }
+  // }, [children, initialIndex]);
 
   /*
   Tracking state changes
@@ -127,7 +135,7 @@ export default function Select({
       );
       previousIndexRef.current = activeIndex;
     }
-  }, [activeIndex, expanded]);
+  }, [activeIndex, expanded, setvalue]);
 
   const clickHandler = (e: SyntheticEvent) => {
     if (!disabled) {

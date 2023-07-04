@@ -77,9 +77,7 @@ const CurrencyCalc = () => {
             <label>Turima valiuta</label>
             <Select
               setvalue={setInputCurrency}
-              initialIndex={
-                currencyList && Object.keys(currencyList).length ? 0 : null
-              }
+              initialIndex={0}
               disabled={loading || !currencyList}
               style={{ fullWidth: true, maxRows: 8 }}
             >
@@ -98,9 +96,7 @@ const CurrencyCalc = () => {
             <label>Norima valiuta</label>
             <Select
               setvalue={setOutputCurrency}
-              initialIndex={
-                currencyList && Object.keys(currencyList).length ? 0 : null
-              }
+              initialIndex={0}
               disabled={loading || !currencyList}
               style={{ fullWidth: true, maxRows: 5 }}
             >

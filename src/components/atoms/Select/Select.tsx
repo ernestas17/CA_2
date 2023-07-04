@@ -59,6 +59,7 @@ interface ISelectProps {
   children: ReactNode;
   initialIndex?: number | null;
   setvalue?: React.Dispatch<React.SetStateAction<any>>;
+  disabled?: boolean;
 
   style?: {
     isRight?: boolean;
@@ -73,6 +74,7 @@ export default function Select({
   children,
   initialIndex,
   setvalue,
+  disabled = false,
   style,
 }: ISelectProps) {
   const [expanded, setExpanded] = useState(false);
@@ -102,7 +104,7 @@ export default function Select({
       }
 
       if (activeIndex !== null) {
-        const activeItem = optionElementsRef.current[activeIndex];
+        const activeItem = optionElementsRef.current[activeIndex]; //problem: this can be undefined when useEffect runs first time
         if (activeItem) {
           // copy html content of activeItem to display in selectbox header
           displayElement.appendChild(activeItem.firstChild.cloneNode(true));
@@ -128,52 +130,55 @@ export default function Select({
   }, [activeIndex, expanded]);
 
   const clickHandler = (e: SyntheticEvent) => {
-    e.stopPropagation();
-    toggleExpand();
+    if (!disabled) {
+      e.stopPropagation();
+      toggleExpand();
+    }
   };
 
   const keyboardHandler = (e: KeyboardEvent) => {
-    switch (e.code) {
-      case 'Enter':
-      case 'Space':
-      case 'ArrowDown':
-      case 'ArrowUp':
-        e.preventDefault();
-        e.stopPropagation();
-        break;
-      case 'Escape':
-        if (expanded) {
+    if (!disabled) {
+      switch (e.code) {
+        case 'Enter':
+        case 'Space':
+        case 'ArrowDown':
+        case 'ArrowUp':
           e.preventDefault();
           e.stopPropagation();
-        }
-        break;
-      default:
-        break;
+          break;
+        case 'Escape':
+          if (expanded) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+          break;
+        default:
+          break;
+      }
+      switch (e.code) {
+        case 'Escape':
+          collapse();
+          break;
+        case 'Enter':
+        case 'Space':
+          toggleExpand();
+          break;
+        case 'ArrowDown':
+          setActiveIndex((prev) =>
+            Array.isArray(children) && (prev ?? -1) < children.length - 1
+              ? (prev ?? -1) + 1
+              : prev
+          );
+          break;
+        case 'ArrowUp':
+          setActiveIndex((prev) => {
+            return prev && prev > 0 ? prev - 1 : prev;
+          });
+          break;
+        default:
+          break;
+      }
     }
-    switch (e.code) {
-      case 'Escape':
-        collapse();
-        break;
-      case 'Enter':
-      case 'Space':
-        toggleExpand();
-        break;
-      case 'ArrowDown':
-        setActiveIndex((prev) =>
-          Array.isArray(children) && (prev ?? -1) < children.length - 1
-            ? (prev ?? -1) + 1
-            : prev
-        );
-        break;
-      case 'ArrowUp':
-        setActiveIndex((prev) => {
-          return prev && prev > 0 ? prev - 1 : prev;
-        });
-        break;
-      default:
-        break;
-    }
-
     //TODO: keyboard lookup options
   };
 
@@ -189,6 +194,7 @@ export default function Select({
       onBlur={blurHandler}
       onKeyDown={keyboardHandler}
       className='dropdown'
+      $disabled={disabled}
       $isRight={style?.isRight}
       $isUp={style?.isUp}
       $isRounded={style?.isRounded}

@@ -77,7 +77,10 @@ const CurrencyCalc = () => {
             <label>Turima valiuta</label>
             <Select
               setvalue={setInputCurrency}
-              initialIndex={0}
+              initialIndex={
+                currencyList && Object.keys(currencyList).length ? 0 : null
+              }
+              disabled={loading || !currencyList}
               style={{ fullWidth: true, maxRows: 8 }}
             >
               {renderCurrencySelection()}
@@ -95,7 +98,10 @@ const CurrencyCalc = () => {
             <label>Norima valiuta</label>
             <Select
               setvalue={setOutputCurrency}
-              initialIndex={0}
+              initialIndex={
+                currencyList && Object.keys(currencyList).length ? 0 : null
+              }
+              disabled={loading || !currencyList}
               style={{ fullWidth: true, maxRows: 5 }}
             >
               {renderCurrencySelection()}
@@ -107,17 +113,23 @@ const CurrencyCalc = () => {
         inputCurrency && (
           <>
             <StyledFieldWithLabel>
-              <label>{inputCurrency && inputCurrency.toUpperCase()}</label>
+              <label>{inputCurrency.toUpperCase()}</label>
               <p>{inputValue}</p>
             </StyledFieldWithLabel>
-            {outputCurrency && rates && (
-              <StyledFieldWithLabel>
-                <label>{outputCurrency && outputCurrency.toUpperCase()}</label>
-                <p>
-                  {rates[outputCurrency] && rates[outputCurrency] * inputValue}
-                </p>
-              </StyledFieldWithLabel>
-            )}
+            {outputCurrency &&
+              (rates ? (
+                <StyledFieldWithLabel>
+                  <label>
+                    {outputCurrency && outputCurrency.toUpperCase()}
+                  </label>
+                  <p>
+                    {rates[outputCurrency] &&
+                      rates[outputCurrency] * inputValue}
+                  </p>
+                </StyledFieldWithLabel>
+              ) : (
+                <div>Something went wrong...</div>
+              ))}
           </>
         )
       }

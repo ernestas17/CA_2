@@ -12,6 +12,7 @@ export const StyledSelectBox = styled.div<{
   $isMedium?: boolean;
   $isLarge?: boolean;
   $fullWidth?: boolean;
+  $disabled?: boolean;
 }>`
   display: inline-flex;
   position: relative;
@@ -68,12 +69,19 @@ export const StyledSelectBox = styled.div<{
         ? '1.5rem'
         : '1rem'};
 
+    opacity: ${(props) => (props.$disabled ? '0.5' : 'initial')};
+
     &:focus {
       outline: none;
     }
 
     &:disabled {
       cursor: not-allowed;
+
+      background-color: white;
+      border-color: #dbdbdb;
+      box-shadow: none;
+      opacity: 0.5;
     }
 
     &:hover {

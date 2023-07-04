@@ -8,7 +8,7 @@ import CounterContentContainer from '../../molecules/CounterContentContainer';
 import Input from '../../atoms/Input';
 import Select from '../../atoms/Select';
 import { SelectItem } from '../../atoms/Select/Select';
-import { StyledCurrencyLabel } from '../../../pages/Currency_calculator/styles';
+import { StyledCurrencyLabel } from './styles';
 const CurrencyCalc = () => {
   const [currencyList, setCurrencyList] = useState<CurrencyListType | null>(
     null

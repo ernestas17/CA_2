@@ -4,7 +4,7 @@ import { StyledInputWrapper, StyledInput } from "./styles";
 interface IInputProps {
   type: "text" | "number";
   value: string | number;
-  setvalue: React.Dispatch<React.SetStateAction<string>>;
+  setvalue: (value: string) => void;
   placeholder?: string;
   width?: number;
 }

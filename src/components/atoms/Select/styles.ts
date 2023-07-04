@@ -166,11 +166,11 @@ export const StyledSelectDropdown = styled.div<{
       0 0px 0 1px rgba(10, 10, 10, 0.02);
     padding-bottom: 0.5rem;
     padding-top: 0.5rem;
-  }
 
-  max-height: ${(props) =>
-    props.$maxRows ? `${2.32 * props.$maxRows}em` : 'initial'};
-  overflow-y: auto;
+    max-height: ${(props) =>
+      props.$maxRows ? `${2.32 * props.$maxRows}em` : 'initial'};
+    overflow-y: auto;
+  }
 `;
 
 export const StyledSelectItem = styled.li<{ $isActive: boolean }>`

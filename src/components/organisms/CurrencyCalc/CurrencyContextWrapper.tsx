@@ -16,6 +16,8 @@ interface ICurrencyContext {
     | null;
 }
 
+export const POPULAR_CURRENCIES = ['USD', 'GBP', 'EUR'];
+
 export const CurrencyContext = createContext<ICurrencyContext>({
   getCurrencyList: null,
   getRates: null,

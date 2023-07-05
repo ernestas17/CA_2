@@ -3,6 +3,7 @@ import {
   CurrencyContext,
   CurrencyListType,
   CurrencyRatesSetType,
+  POPULAR_CURRENCIES,
 } from './CurrencyContextWrapper';
 import CounterContentContainer from '../../molecules/CounterContentContainer';
 import Input from '../../atoms/Input';
@@ -46,21 +47,47 @@ const CurrencyCalc = () => {
     }
   }, [getRates, inputCurrency]);
 
-  const renderCurrencySelection = () => {
+  const renderCurrencySelection = (duplicatePopularOnTop?: boolean) => {
     if (currencyList && Object.keys(currencyList).length) {
+      const popularCurrencies = POPULAR_CURRENCIES;
       return [
         <SelectItem key={`itm0`} value={null}>
           ...
         </SelectItem>,
-        ...Object.entries(currencyList).map((entry, index) => (
-          <SelectItem key={`itm${index + 1}`} value={entry[0]}>
-            <StyledCurrencyLabel>
-              <span className='currency-code-label'>{entry[0]}</span>
-              <span className='title'>{entry[1]}</span>
-            </StyledCurrencyLabel>
-          </SelectItem>
-        )),
-      ];
+      ]
+        .concat(
+          duplicatePopularOnTop
+            ? Object.entries(currencyList)
+                .filter((entry) =>
+                  popularCurrencies.includes(entry[0].toUpperCase())
+                )
+                .map((entry, index) => (
+                  <SelectItem key={`itm${index + 1}`} value={entry[0]}>
+                    <StyledCurrencyLabel>
+                      <span className='currency-code-label'>{entry[0]}</span>
+                      <span className='title'>{entry[1]}</span>
+                    </StyledCurrencyLabel>
+                  </SelectItem>
+                ))
+            : []
+        )
+        .concat(
+          Object.entries(currencyList).map((entry, index) => (
+            <SelectItem
+              key={`itm${
+                index +
+                1 +
+                (duplicatePopularOnTop ? popularCurrencies.length : 0)
+              }`}
+              value={entry[0]}
+            >
+              <StyledCurrencyLabel>
+                <span className='currency-code-label'>{entry[0]}</span>
+                <span className='title'>{entry[1]}</span>
+              </StyledCurrencyLabel>
+            </SelectItem>
+          ))
+        );
     } else {
       return <SelectItem value={null}>...</SelectItem>;
     }
@@ -81,7 +108,7 @@ const CurrencyCalc = () => {
               disabled={loading || !currencyList}
               style={{ fullWidth: true, maxRows: 8 }}
             >
-              {renderCurrencySelection()}
+              {renderCurrencySelection(true)}
             </Select>
           </StyledFieldWithLabel>
           <StyledFieldWithLabel>
@@ -100,7 +127,7 @@ const CurrencyCalc = () => {
               disabled={loading || !currencyList}
               style={{ fullWidth: true, maxRows: 5 }}
             >
-              {renderCurrencySelection()}
+              {renderCurrencySelection(true)}
             </Select>
           </StyledFieldWithLabel>
         </>

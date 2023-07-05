@@ -11,10 +11,14 @@ export const StyledSelectBox = styled.div<{
   $isSmall?: boolean;
   $isMedium?: boolean;
   $isLarge?: boolean;
+  $fullWidth?: boolean;
+  $disabled?: boolean;
 }>`
   display: inline-flex;
   position: relative;
   vertical-align: top;
+
+  width: ${(props) => (props.$fullWidth ? '100%' : 'initial')};
 
   /* TODO: move button style to another reusable component */
   .button {
@@ -65,12 +69,19 @@ export const StyledSelectBox = styled.div<{
         ? '1.5rem'
         : '1rem'};
 
+    opacity: ${(props) => (props.$disabled ? '0.5' : 'initial')};
+
     &:focus {
       outline: none;
     }
 
     &:disabled {
       cursor: not-allowed;
+
+      background-color: white;
+      border-color: #dbdbdb;
+      box-shadow: none;
+      opacity: 0.5;
     }
 
     &:hover {
@@ -120,7 +131,7 @@ export const StyledSelectBox = styled.div<{
     bottom: ${(props) => (props.$isUp ? '100%' : 'initial')};
     padding-bottom: ${(props) => (props.$isUp ? '4px' : 'initial')};
     padding-top: ${(props) => (props.$isUp ? 'initial' : 'initial')};
-    top: ${(props) => (props.$isUp ? 'auto' : 'initial')};
+    top: ${(props) => (props.$isUp ? 'auto' : '100%')};
   }
 
   .dropdown-item {
@@ -133,9 +144,21 @@ export const StyledSelectBox = styled.div<{
         ? '1.5rem'
         : '1rem'};
   }
+
+  .dropdown-trigger {
+    width: ${(props) => (props.$fullWidth ? '100%' : 'initial')};
+  }
+
+  .dropdown-trigger > .button {
+    width: ${(props) => (props.$fullWidth ? '100%' : 'initial')};
+    justify-content: space-between;
+  }
 `;
 
-export const StyledSelectDropdown = styled.div<{ $isActive: boolean }>`
+export const StyledSelectDropdown = styled.div<{
+  $isActive: boolean;
+  $maxRows?: number;
+}>`
   display: ${(props) => (props.$isActive ? 'block' : 'none')};
   left: 0;
   min-width: 12rem;
@@ -151,6 +174,10 @@ export const StyledSelectDropdown = styled.div<{ $isActive: boolean }>`
       0 0px 0 1px rgba(10, 10, 10, 0.02);
     padding-bottom: 0.5rem;
     padding-top: 0.5rem;
+
+    max-height: ${(props) =>
+      props.$maxRows ? `${2.32 * props.$maxRows}em` : 'initial'};
+    overflow-y: auto;
   }
 `;
 

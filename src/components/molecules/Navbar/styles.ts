@@ -41,6 +41,21 @@ export const StyledNav = styled.nav`
       margin-left: auto;
     }
   }
+
+  /* deviating from Bulma standard */
+
+  justify-content: center;
+
+  .navbar-menu {
+    flex-grow: 0;
+  }
+
+  .navbar-menu,
+  .navbar-start,
+  .navbar-end {
+    flex-shrink: 1;
+    flex-wrap: wrap;
+  }
 `;
 
 export const StyledLink = styled(Link)`

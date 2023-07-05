@@ -1,8 +1,11 @@
+import Vat_calc from "../../components/organisms/Vat_calc";
 
 const VATCalc = () => {
   return (
-    <div>VAT_calc</div>
-  )
-}
+    <div>
+      <Vat_calc />
+    </div>
+  );
+};
 
-export default VATCalc
+export default VATCalc;

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import CounterContentContainer from '../../molecules/CounterContentContainer';
 import Input from '../../atoms/Input';
 import RadioWrapper, { RadioItem } from '../../atoms/Radio/Radio';
+import { StyledRow, StyledTitleRow } from './styles';
 
 const IndividActivTaxCalcualtor = () => {
   // useState for inputs
@@ -54,123 +55,83 @@ const IndividActivTaxCalcualtor = () => {
     const calcPaidVSD = parseFloat(paidVSD);
     const calcPaidPSD = parseFloat(paidPSD);
 
-    let calculatedCostsIncurred;
-    let taxableIncome;
-    let calculatedContributionBase;
+    let calculatedCostsIncurred = '';
+    let taxableIncome = '';
+    let calculatedContributionBase = '';
     let calculatedVSD = '';
     let calculatedPSD = '';
     let sodraCalculatedTotal = '';
     // let sodraPaidTotal = '';
 
-    // calcualting patirtos sąnaudos according cost calculation
+    const updateVSDandSodraTotal = () => {
+      // calculating "Sodra" contributions
+      if (savingAdditional === 'Ne') {
+        calculatedVSD = (
+          (parseFloat(calculatedContributionBase) * 12.52) /
+          100
+        ).toFixed(2);
+      } else {
+        calculatedVSD = (
+          (parseFloat(calculatedContributionBase) * 15.52) /
+          100
+        ).toFixed(2);
+      }
+
+      sodraCalculatedTotal = (
+        parseFloat(calculatedVSD) + parseFloat(calculatedPSD)
+      ).toFixed(2);
+    };
+
+    const updateTaxibleIncome = () => {
+      // calcualting apmokestinamosios pajamos according cost calculation
+      if (selectedCostCalculation === '30% nuo pajamų') {
+        taxableIncome = (
+          calcIncome - parseFloat(calculatedCostsIncurred)
+        ).toFixed(2);
+      } else {
+        taxableIncome = (
+          calcIncome -
+          calcCostsIncurred -
+          parseFloat(sodraCalculatedTotal)
+        ).toFixed(2);
+        console.log('sodraCalculatedTotal' + sodraCalculatedTotal);
+      }
+    };
+
+    const updatePSD = () => {
+      if (taxableIncome === '' || parseFloat(taxableIncome) <= 20000) {
+        const oneMonthPSD = ((840 * 6.98) / 100).toFixed(2);
+        calculatedPSD = (parseFloat(oneMonthPSD) * 12).toFixed(2);
+        // calculatedPSD = (((840 * 6.98) / 100) * 12).toFixed(2);
+      } else {
+        calculatedPSD = (
+          (parseFloat(calculatedContributionBase) * 6.98) /
+          100
+        ).toFixed(2);
+      }
+    };
+
     if (selectedCostCalculation === '30% nuo pajamų') {
       calculatedCostsIncurred = (calcIncome * 0.3).toFixed(2);
+      updateTaxibleIncome(); //nepriklauso nuo sodros
+      // calcualting „Sodros“ įmokų bazė according cost calculation
+      calculatedContributionBase = (parseFloat(taxableIncome) * 0.9).toFixed(2);
+      updatePSD();
+      updateVSDandSodraTotal();
     } else {
       calculatedCostsIncurred = calcCostsIncurred.toFixed(2);
-    }
-
-    //console.log(`selectedCostCalculation ${selectedCostCalculation}`);
-
-    // calcualting apmokestinamosios pajamos according cost calculation
-    if (selectedCostCalculation === '30% nuo pajamų') {
-      taxableIncome = (
-        calcIncome - parseFloat(calculatedCostsIncurred)
-      ).toFixed(2);
-    } else {
-      taxableIncome = (
-        calcIncome -
-        calcCostsIncurred -
-        parseFloat(sodraCalculatedTotal)
-      ).toFixed(2);
-      console.log('sodraCalculatedTotal' + sodraCalculatedTotal);
-    }
-
-    // calcualting „Sodros“ įmokų bazė according cost calculation
-    if (selectedCostCalculation === '30% nuo pajamų') {
-      calculatedContributionBase = (parseFloat(taxableIncome) * 0.9).toFixed(2);
-    } else {
+      taxableIncome = '';
+      // calcualting „Sodros“ įmokų bazė according cost calculation
       calculatedContributionBase = (
         (calcIncome - parseFloat(calculatedCostsIncurred)) *
         0.9
       ).toFixed(2);
+      updatePSD(); //preliminarus PSD
+      updateVSDandSodraTotal();
+      updateTaxibleIncome();
+      updatePSD(); //perskaiciuotas PSD pagal taxibleIncome
+      updateVSDandSodraTotal();
     }
-
-    // calculating "Sodra"
-    if (savingAdditional === 'Ne') {
-      const calculatedVSDValue = (
-        (parseFloat(contributionBase) * 12.52) /
-        100
-      ).toFixed(2);
-      setCalculatedVSD(calculatedVSDValue);
-    } else {
-      const calculatedVSDValue = (
-        (parseFloat(contributionBase) * 15.52) /
-        100
-      ).toFixed(2);
-      setCalculatedVSD(calculatedVSDValue);
-    }
-
-    // calculating "Sodra" contributions
-    if (savingAdditional === 'Ne') {
-      calculatedVSD = (
-        (parseFloat(calculatedContributionBase) * 12.52) /
-        100
-      ).toFixed(2);
-    } else {
-      calculatedVSD = (
-        (parseFloat(calculatedContributionBase) * 15.52) /
-        100
-      ).toFixed(2);
-    }
-
-    // if (parseFloat(taxableIncome) <= 20000 ) {
-    //   const oneMonthPSD = (840 * 6.98) / 100;
-    //   calculatedPSD = (oneMonthPSD * 12).toFixed(2);
-    // } else {
-    //   calculatedPSD = (
-    //     (parseFloat(calculatedContributionBase) * 6.98) /
-    //     100
-    //   ).toFixed(2);
-    // }
-
-    // if (
-    //   (parseFloat(taxableIncome) <= 20000 &&
-    //     selectedCostCalculation === '30% nuo pajamų') ||
-    //   (parseFloat(taxableIncome) <= 20000 &&
-    //     selectedCostCalculation === 'Faktiškai patirtos')
-    // ) {
-    //   const oneMonthPSD = (840 * 6.98) / 100;
-    //   calculatedPSD = (oneMonthPSD * 12).toFixed(2);
-    // } else {
-    //   calculatedPSD = (
-    //     (parseFloat(calculatedContributionBase) * 6.98) /
-    //     100
-    //   ).toFixed(2);
-    // }
-
-    if (
-      parseFloat(taxableIncome) <= 20000 &&
-      (selectedCostCalculation === '30% nuo pajamų' ||
-        selectedCostCalculation === 'Faktiškai patirtos')
-    ) {
-      //   const oneMonthPSD = (840 * 6.98) / 100;
-      //   calculatedPSD = (oneMonthPSD * 12).toFixed(2);
-      console.log('selectedCostCalculation' + selectedCostCalculation);
-      console.log(taxableIncome);
-      calculatedPSD = (((840 * 6.98) / 100) * 12).toFixed(2);
-    } else {
-      console.log(selectedCostCalculation);
-      calculatedPSD = (
-        (parseFloat(calculatedContributionBase) * 6.98) /
-        100
-      ).toFixed(2);
-    }
-
-    sodraCalculatedTotal = (
-      parseFloat(calculatedVSD) + parseFloat(calculatedPSD)
-    ).toFixed(2);
-
-    // sodraPaidTotal = (calcPaidVSD + calcPaidPSD).toFixed(2);
 
     // Calculating Gyventojų pajamų mokestis
     let incomeTaxCredit = '';
@@ -227,6 +188,18 @@ const IndividActivTaxCalcualtor = () => {
 
   const VSDLabel = () => {
     return savingAdditional === 'Ne' ? 'VSD 12.52%' : 'VSD 15.52%';
+  };
+
+  const getNumberOrZero = (value: string | number): number => {
+    const parsedValue = typeof value === 'string' ? parseFloat(value) : value;
+    return isNaN(parsedValue) ? 0 : parsedValue;
+  };
+
+  const getStringOrEmpty = (value: string | number): string => {
+    if (typeof value === 'number') {
+      return value.toFixed(2);
+    }
+    return '';
   };
 
   return (
@@ -323,86 +296,74 @@ const IndividActivTaxCalcualtor = () => {
           <div>
             <div>
               <label>Gautos pajamos:</label>
-              <p>{isNaN(Number(incomeReceived)) ? '' : incomeReceived}</p>
+              <p>{getStringOrEmpty(getNumberOrZero(incomeReceived))}</p>
             </div>
             <div>
               <label>Patirtos sąnaudos:</label>
               <p>
-                {isNaN(Number(calculatedCostsIncurred))
-                  ? ''
-                  : calculatedCostsIncurred}
+                {getStringOrEmpty(getNumberOrZero(calculatedCostsIncurred))}
               </p>
             </div>
             <div>
               <label>Apmokestinamosios pajamos:</label>
-              <p>{isNaN(Number(taxableIncome)) ? '' : taxableIncome}</p>
+              <p>{getStringOrEmpty(getNumberOrZero(taxableIncome))}</p>
             </div>
             <div>
               <label>
                 „Sodros“ įmokų bazė (suma nuo kurios skaičiuojamos VSD ir PSD
                 įmokos):
               </label>
-              <p>{isNaN(Number(contributionBase)) ? '' : contributionBase}</p>
+              <p>{getStringOrEmpty(getNumberOrZero(contributionBase))}</p>
             </div>
             <div>
-              <div className='titleRow'>
+              <StyledTitleRow>
                 <label>Sodra</label>
                 <label>{VSDLabel()}</label>
                 <label>PSD 6.98%</label>
                 <label>Iš viso</label>
-              </div>
-              <div className='row'>
+              </StyledTitleRow>
+              <StyledRow>
                 <label>Priskaičiuota:</label>
-                <p>{isNaN(Number(calculatedVSD)) ? '' : calculatedVSD}</p>
-                <p>{isNaN(Number(calculatedPSD)) ? '' : calculatedPSD}</p>
-                <p>
-                  {isNaN(Number(sodraCalculatedTotal))
-                    ? ''
-                    : sodraCalculatedTotal}
-                </p>
-              </div>
-              <div className='row'>
+                <p>{getStringOrEmpty(getNumberOrZero(calculatedVSD))}</p>
+                <p>{getStringOrEmpty(getNumberOrZero(calculatedPSD))}</p>
+                <p>{getStringOrEmpty(getNumberOrZero(sodraCalculatedTotal))}</p>
+              </StyledRow>
+              <StyledRow>
                 <label>Sumokėta:</label>
+                <p>{getStringOrEmpty(getNumberOrZero(paidVSD))}</p>
+                <p>{getStringOrEmpty(getNumberOrZero(paidPSD))}</p>
                 <p>
-                  {isNaN(Number(paidVSD)) ? '' : Number(paidVSD).toFixed(2)}
+                  {getStringOrEmpty(
+                    getNumberOrZero(paidVSD) + getNumberOrZero(paidPSD)
+                  )}
                 </p>
-                <p>
-                  {isNaN(Number(paidPSD)) ? '' : Number(paidPSD).toFixed(2)}
-                </p>
-                <p>
-                  {isNaN(parseFloat(paidVSD)) || isNaN(parseFloat(paidPSD))
-                    ? ''
-                    : (parseFloat(paidVSD) + parseFloat(paidPSD)).toFixed(2)}
-                </p>
-              </div>
-              <div className='row'>
+              </StyledRow>
+              <StyledRow>
                 <label>Liko mokėti:</label>
                 <p>
-                  {isNaN(Number(calculatedVSD)) || isNaN(Number(paidVSD))
-                    ? ''
-                    : parseFloat(calculatedVSD) - parseFloat(paidVSD)}
+                  {getStringOrEmpty(
+                    parseFloat(calculatedVSD) - getNumberOrZero(paidVSD)
+                  )}
                 </p>
                 <p>
-                  {isNaN(Number(calculatedPSD)) || isNaN(Number(paidPSD))
-                    ? ''
-                    : parseFloat(calculatedPSD) - parseFloat(paidPSD)}
+                  {getStringOrEmpty(
+                    parseFloat(calculatedPSD) - getNumberOrZero(paidPSD)
+                  )}
                 </p>
                 <p>
-                  {isNaN(Number(sodraCalculatedTotal)) ||
-                  isNaN(Number(paidVSD)) ||
-                  isNaN(Number(paidPSD))
-                    ? ''
-                    : parseFloat(sodraCalculatedTotal) -
-                      (parseFloat(paidVSD) + parseFloat(paidPSD))}
+                  {getStringOrEmpty(
+                    parseFloat(sodraCalculatedTotal) -
+                      (getNumberOrZero(paidVSD) + getNumberOrZero(paidPSD))
+                  )}
                 </p>
-              </div>
+              </StyledRow>
             </div>
             <div>
-              <div className='titleRow'>
+              <StyledTitleRow>
                 <label>Gyventojų pajamų mokestis</label>
                 <label>Suma</label>
-              </div>
-              <div className='row'>
+              </StyledTitleRow>
+              <StyledRow>
                 <label>Pajamų mokesčio kreditas (GMP įst. 18 str.):</label>
                 <p>
                   {' '}
@@ -410,28 +371,28 @@ const IndividActivTaxCalcualtor = () => {
                     ? ''
                     : Number(incomeTaxCredit).toFixed(2)}
                 </p>
-              </div>
-              <div className='row'>
+              </StyledRow>
+              <StyledRow>
                 <label>GPM</label>
                 <p> {isNaN(Number(gmp)) ? '' : Number(gmp).toFixed(2)}</p>
-              </div>
+              </StyledRow>
             </div>
             <div>
-              <div className='titleRow'>
+              <StyledTitleRow>
                 <label>Iš viso</label>
-              </div>
-              <div className='row'>
+              </StyledTitleRow>
+              <StyledRow>
                 <label>Iš viso mokesčių:</label>
                 <p>
                   {isNaN(Number(totalFees)) ? '' : Number(totalFees).toFixed(2)}
                 </p>
-              </div>
-              <div className='row'>
+              </StyledRow>
+              <StyledRow>
                 <label>Grynasis pelnas:</label>
                 <p>
                   {isNaN(Number(netProfit)) ? '' : Number(netProfit).toFixed(2)}
                 </p>
-              </div>
+              </StyledRow>
             </div>
           </div>
         }

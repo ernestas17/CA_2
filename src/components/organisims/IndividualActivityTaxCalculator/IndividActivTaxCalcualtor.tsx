@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import CounterContentContainer from '../../molecules/CounterContentContainer';
 import Input from '../../atoms/Input';
 import RadioWrapper, { RadioItem } from '../../atoms/Radio/Radio';
-import Checkbox from '../../atoms/Checkbox';
 
 const IndividActivTaxCalcualtor = () => {
   // useState for inputs
@@ -27,9 +26,12 @@ const IndividActivTaxCalcualtor = () => {
   const [calculatedVSD, setCalculatedVSD] = useState<string>('');
   const [calculatedPSD, setCalculatedPSD] = useState<string>('');
   const [sodraCalculatedTotal, setSodraCalculatedTotal] = useState<string>('');
-//   const [sodraPaidTotal, setSodraPaidTotal] = useState<string>('');
+  //   const [sodraPaidTotal, setSodraPaidTotal] = useState<string>('');
 
   const [savingAdditional, setSavingAdditional] = useState<string>('Ne');
+
+  const [incomeTaxCredit, setIncomeTaxCredit] = useState<string>('');
+  const [gmp, setGMP] = useState<string>('');
 
   useEffect(() => {
     calculateOutputs();
@@ -44,7 +46,6 @@ const IndividActivTaxCalcualtor = () => {
     //sodraPaidTotal,
   ]);
 
-  
   const calculateOutputs = () => {
     const calcIncome = parseFloat(income);
     const calcCostsIncurred = parseFloat(costsIncurred);
@@ -169,6 +170,23 @@ const IndividActivTaxCalcualtor = () => {
 
     // sodraPaidTotal = (calcPaidVSD + calcPaidPSD).toFixed(2);
 
+    // Calculating Gyventojų pajamų mokestis
+    let incomeTaxCredit = '';
+    if (parseFloat(taxableIncome) <= 20000) {
+      incomeTaxCredit = (parseFloat(taxableIncome) * 0.1).toFixed(2);
+    } else {
+      const calculatedIncomeTaxCredit =
+        parseFloat(taxableIncome) *
+        (0.1 - (2 / 300000) * (parseFloat(taxableIncome) - 20000));
+      incomeTaxCredit =
+        calculatedIncomeTaxCredit < 0
+          ? '0'
+          : calculatedIncomeTaxCredit.toFixed(2);
+    }
+
+    const calculatedGMP =
+      parseFloat(taxableIncome) * 0.15 - parseFloat(incomeTaxCredit);
+
     // console.log(`calculatedCostsIncurred ${calculatedCostsIncurred}`);
     // console.log(`calculatedContributionBase ${calculatedContributionBase}`);
     // console.log(`calculatedPSD ${calculatedPSD}`);
@@ -183,6 +201,8 @@ const IndividActivTaxCalcualtor = () => {
     setPaidVSD(calcPaidVSD.toFixed(2));
     setPaidPSD(calcPaidPSD.toFixed(2));
     // setSodraPaidTotal(sodraPaidTotal);
+    setIncomeTaxCredit(incomeTaxCredit);
+    setGMP(calculatedGMP.toFixed(2));
   };
 
   const handleCostCalculationChange = (value: string) => {
@@ -339,7 +359,11 @@ const IndividActivTaxCalcualtor = () => {
                 <p>
                   {isNaN(Number(paidPSD)) ? '' : Number(paidPSD).toFixed(2)}
                 </p>
-                <p>{isNaN(parseFloat(paidVSD)) || isNaN(parseFloat(paidPSD))? '' : (parseFloat(paidVSD) + parseFloat(paidPSD)).toFixed(2)}</p>
+                <p>
+                  {isNaN(parseFloat(paidVSD)) || isNaN(parseFloat(paidPSD))
+                    ? ''
+                    : (parseFloat(paidVSD) + parseFloat(paidPSD)).toFixed(2)}
+                </p>
               </div>
               <div className='row'>
                 <label>Liko mokėti:</label>
@@ -361,6 +385,33 @@ const IndividActivTaxCalcualtor = () => {
                     : parseFloat(sodraCalculatedTotal) -
                       (parseFloat(paidVSD) + parseFloat(paidPSD))}
                 </p>
+              </div>
+            </div>
+            <div>
+              <div className='titleRow'>
+                <label>Gyventojų pajamų mokestis</label>
+                <label>Suma</label>
+              </div>
+              <div className='row'>
+                <label>Pajamų mokesčio kreditas (GMP įst. 18 str.):</label>
+                <p> {isNaN(Number(incomeTaxCredit)) ? '' : Number(incomeTaxCredit).toFixed(2)}</p>
+              </div>
+              <div className='row'>
+                <label>GPM</label>
+                <p> {isNaN(Number(gmp)) ? '' : Number(gmp).toFixed(2)}</p>
+              </div>
+            </div>
+            <div>
+              <div className='titleRow'>
+                <label>Iš viso</label>
+              </div>
+              <div className='row'>
+                <label>Iš viso mokesčių:</label>
+                <p></p>
+              </div>
+              <div className='row'>
+                <label>Grynasis pelnas:</label>
+                <p></p>
               </div>
             </div>
           </div>

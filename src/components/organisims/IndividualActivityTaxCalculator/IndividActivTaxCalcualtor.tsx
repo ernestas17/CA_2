@@ -32,6 +32,8 @@ const IndividActivTaxCalcualtor = () => {
 
   const [incomeTaxCredit, setIncomeTaxCredit] = useState<string>('');
   const [gmp, setGMP] = useState<string>('');
+  const [totalFees, setTotalFees] = useState<string>('');
+  const [netProfit, setNetProfit] = useState<string>('');
 
   useEffect(() => {
     calculateOutputs();
@@ -187,8 +189,14 @@ const IndividActivTaxCalcualtor = () => {
     const calculatedGMP =
       parseFloat(taxableIncome) * 0.15 - parseFloat(incomeTaxCredit);
 
-    // console.log(`calculatedCostsIncurred ${calculatedCostsIncurred}`);
-    // console.log(`calculatedContributionBase ${calculatedContributionBase}`);
+    const calcTotalFees = parseFloat(sodraCalculatedTotal) + calculatedGMP;
+
+    const calcNetProfit =
+      calcIncome - (parseFloat(calculatedCostsIncurred) + calcTotalFees);
+
+    console.log(`calcIncome ${calcIncome}`);
+    console.log(`calcTotalFees ${calcTotalFees}`);
+    console.log(`calcNetProfit ${calcNetProfit}`);
     // console.log(`calculatedPSD ${calculatedPSD}`);
 
     setIncomeReceived(calcIncome.toFixed(2));
@@ -203,6 +211,8 @@ const IndividActivTaxCalcualtor = () => {
     // setSodraPaidTotal(sodraPaidTotal);
     setIncomeTaxCredit(incomeTaxCredit);
     setGMP(calculatedGMP.toFixed(2));
+    setTotalFees(calcTotalFees.toFixed(2));
+    setNetProfit(calcNetProfit.toFixed(2));
   };
 
   const handleCostCalculationChange = (value: string) => {
@@ -394,7 +404,12 @@ const IndividActivTaxCalcualtor = () => {
               </div>
               <div className='row'>
                 <label>Pajamų mokesčio kreditas (GMP įst. 18 str.):</label>
-                <p> {isNaN(Number(incomeTaxCredit)) ? '' : Number(incomeTaxCredit).toFixed(2)}</p>
+                <p>
+                  {' '}
+                  {isNaN(Number(incomeTaxCredit))
+                    ? ''
+                    : Number(incomeTaxCredit).toFixed(2)}
+                </p>
               </div>
               <div className='row'>
                 <label>GPM</label>
@@ -407,11 +422,15 @@ const IndividActivTaxCalcualtor = () => {
               </div>
               <div className='row'>
                 <label>Iš viso mokesčių:</label>
-                <p></p>
+                <p>
+                  {isNaN(Number(totalFees)) ? '' : Number(totalFees).toFixed(2)}
+                </p>
               </div>
               <div className='row'>
                 <label>Grynasis pelnas:</label>
-                <p></p>
+                <p>
+                  {isNaN(Number(netProfit)) ? '' : Number(netProfit).toFixed(2)}
+                </p>
               </div>
             </div>
           </div>

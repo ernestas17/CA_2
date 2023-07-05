@@ -80,6 +80,7 @@ const IndividActivTaxCalcualtor = () => {
       sodraCalculatedTotal = (
         parseFloat(calculatedVSD) + parseFloat(calculatedPSD)
       ).toFixed(2);
+      console.log('sodraCalculatedTotal ' + sodraCalculatedTotal);
     };
 
     const updateTaxibleIncome = () => {
@@ -94,22 +95,30 @@ const IndividActivTaxCalcualtor = () => {
           calcCostsIncurred -
           parseFloat(sodraCalculatedTotal)
         ).toFixed(2);
-        console.log('sodraCalculatedTotal' + sodraCalculatedTotal);
+
+        console.log('taxableIncome ' + taxableIncome);
       }
     };
 
     const updatePSD = () => {
-      if (taxableIncome === '' || parseFloat(taxableIncome) <= 20000) {
-        const oneMonthPSD = ((840 * 6.98) / 100).toFixed(2);
-        calculatedPSD = (parseFloat(oneMonthPSD) * 12).toFixed(2);
-        // calculatedPSD = (((840 * 6.98) / 100) * 12).toFixed(2);
-      } else {
-        calculatedPSD = (
-          (parseFloat(calculatedContributionBase) * 6.98) /
-          100
-        ).toFixed(2);
-      }
+      calculatedPSD = Math.max(
+        parseFloat(calculatedContributionBase) * 0.0698,
+        703.56
+      ).toFixed(2);
+      //   if  {
+      //     const oneMonthPSD = ((840 * 6.98) / 100).toFixed(2);
+      //     calculatedPSD = (parseFloat(oneMonthPSD) * 12).toFixed(2);
+      //     // calculatedPSD = (((840 * 6.98) / 100) * 12).toFixed(2);
+      //   } else {
+      //     calculatedPSD = (
+      //       (parseFloat(calculatedContributionBase) * 6.98) /
+      //       100
+      //     ).toFixed(2);
+      //   }
+      console.log('calculatedPSD ' + calculatedPSD);
     };
+
+    console.log('-------------------------');
 
     if (selectedCostCalculation === '30% nuo pajamų') {
       calculatedCostsIncurred = (calcIncome * 0.3).toFixed(2);
@@ -126,11 +135,10 @@ const IndividActivTaxCalcualtor = () => {
         (calcIncome - parseFloat(calculatedCostsIncurred)) *
         0.9
       ).toFixed(2);
-      updatePSD(); //preliminarus PSD
+      //vsd
+      updatePSD();
       updateVSDandSodraTotal();
       updateTaxibleIncome();
-      updatePSD(); //perskaiciuotas PSD pagal taxibleIncome
-      updateVSDandSodraTotal();
     }
 
     // Calculating Gyventojų pajamų mokestis
@@ -147,6 +155,9 @@ const IndividActivTaxCalcualtor = () => {
           : calculatedIncomeTaxCredit.toFixed(2);
     }
 
+    console.log('taxableIncome2 ' + taxableIncome);
+    console.log('incomeTaxCredit ' + incomeTaxCredit);
+
     const calculatedGMP =
       parseFloat(taxableIncome) * 0.15 - parseFloat(incomeTaxCredit);
 
@@ -154,11 +165,6 @@ const IndividActivTaxCalcualtor = () => {
 
     const calcNetProfit =
       calcIncome - (parseFloat(calculatedCostsIncurred) + calcTotalFees);
-
-    console.log(`calcIncome ${calcIncome}`);
-    console.log(`calcTotalFees ${calcTotalFees}`);
-    console.log(`calcNetProfit ${calcNetProfit}`);
-    // console.log(`calculatedPSD ${calculatedPSD}`);
 
     setIncomeReceived(calcIncome.toFixed(2));
     setCalculatedCostsIncurred(calculatedCostsIncurred);
@@ -169,7 +175,6 @@ const IndividActivTaxCalcualtor = () => {
     setSodraCalculatedTotal(sodraCalculatedTotal);
     setPaidVSD(calcPaidVSD.toFixed(2));
     setPaidPSD(calcPaidPSD.toFixed(2));
-    // setSodraPaidTotal(sodraPaidTotal);
     setIncomeTaxCredit(incomeTaxCredit);
     setGMP(calculatedGMP.toFixed(2));
     setTotalFees(calcTotalFees.toFixed(2));
@@ -177,7 +182,6 @@ const IndividActivTaxCalcualtor = () => {
   };
 
   const handleCostCalculationChange = (value: string) => {
-    //console.log('Selected cost calculation:', value);
     setSelectedCostCalculation(value);
   };
 
@@ -341,20 +345,20 @@ const IndividActivTaxCalcualtor = () => {
               <StyledRow>
                 <label>Liko mokėti:</label>
                 <p>
-                  {getStringOrEmpty(
-                    parseFloat(calculatedVSD) - getNumberOrZero(paidVSD)
-                  )}
+                  {isNaN(Number(calculatedVSD))
+                    ? ''
+                    : parseFloat(calculatedVSD) - getNumberOrZero(paidVSD)}
                 </p>
                 <p>
-                  {getStringOrEmpty(
-                    parseFloat(calculatedPSD) - getNumberOrZero(paidPSD)
-                  )}
+                  {isNaN(Number(calculatedPSD))
+                    ? ''
+                    : parseFloat(calculatedPSD) - getNumberOrZero(paidPSD)}
                 </p>
                 <p>
-                  {getStringOrEmpty(
-                    parseFloat(sodraCalculatedTotal) -
-                      (getNumberOrZero(paidVSD) + getNumberOrZero(paidPSD))
-                  )}
+                  {isNaN(Number(sodraCalculatedTotal))
+                    ? ''
+                    : parseFloat(sodraCalculatedTotal) -
+                      (getNumberOrZero(paidVSD) + getNumberOrZero(paidPSD))}
                 </p>
               </StyledRow>
             </div>
@@ -365,16 +369,11 @@ const IndividActivTaxCalcualtor = () => {
               </StyledTitleRow>
               <StyledRow>
                 <label>Pajamų mokesčio kreditas (GMP įst. 18 str.):</label>
-                <p>
-                  {' '}
-                  {isNaN(Number(incomeTaxCredit))
-                    ? ''
-                    : Number(incomeTaxCredit).toFixed(2)}
-                </p>
+                <p>{getStringOrEmpty(getNumberOrZero(incomeTaxCredit))}</p>
               </StyledRow>
               <StyledRow>
                 <label>GPM</label>
-                <p> {isNaN(Number(gmp)) ? '' : Number(gmp).toFixed(2)}</p>
+                <p> {getStringOrEmpty(getNumberOrZero(gmp))}</p>
               </StyledRow>
             </div>
             <div>
@@ -383,15 +382,11 @@ const IndividActivTaxCalcualtor = () => {
               </StyledTitleRow>
               <StyledRow>
                 <label>Iš viso mokesčių:</label>
-                <p>
-                  {isNaN(Number(totalFees)) ? '' : Number(totalFees).toFixed(2)}
-                </p>
+                <p>{getStringOrEmpty(getNumberOrZero(totalFees))}</p>
               </StyledRow>
               <StyledRow>
                 <label>Grynasis pelnas:</label>
-                <p>
-                  {isNaN(Number(netProfit)) ? '' : Number(netProfit).toFixed(2)}
-                </p>
+                <p>{getStringOrEmpty(getNumberOrZero(netProfit))}</p>
               </StyledRow>
             </div>
           </div>

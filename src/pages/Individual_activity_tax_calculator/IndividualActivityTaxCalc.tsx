@@ -1,4 +1,4 @@
-import IndividActivTaxCalcualtor from '../../components/organisims/IndividualActivityTaxCalculator';
+import IndividActivTaxCalcualtor from '../../components/organisms/IndividualActivityTaxCalculator';
 
 const IndividualActivityTaxCalc = () => {
   return (

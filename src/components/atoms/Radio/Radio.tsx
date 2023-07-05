@@ -1,28 +1,35 @@
-import React, { useRef } from "react";
-import { StyledRadio, StyledRadioLabelWrapper } from "./styles";
+import React, { ChangeEvent, useRef } from 'react';
+import { StyledRadio, StyledRadioLabelWrapper } from './styles';
 
 interface IRadioProps {
   label: string;
+  value: string;
   name: string;
   checked?: boolean;
+  onChange?: (value: string) => void;
 }
 
-export const RadioItem = ({ label, name, checked }: IRadioProps) => {
-  const radioRef = useRef<HTMLInputElement>(null);
-
-  const handleLabelClick = () => {
-    if (radioRef.current) {
-      radioRef.current.checked = true;
+export const RadioItem = ({
+  label,
+  value,
+  name,
+  checked,
+  onChange,
+}: IRadioProps) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (onChange) {
+      onChange(event.target.value);
     }
   };
 
   return (
-    <StyledRadioLabelWrapper onClick={handleLabelClick}>
+    <StyledRadioLabelWrapper>
       <StyledRadio
-        ref={radioRef}
-        type="radio"
+        type='radio'
         name={name}
-        defaultChecked={checked}
+        value={value}
+        checked={checked}
+        onChange={handleChange}
       />
       {label}
     </StyledRadioLabelWrapper>

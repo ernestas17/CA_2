@@ -1,18 +1,27 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 import {
   StyledCounterContentContainer,
   StyledInputsContainer,
   StyledOutputsContainer,
-} from "./styles";
+  ExtraStyledInputsContainer,
+  ExtraStyledOutputsContainer,
+} from './styles';
 
 const CounterContentContainer = ({
   inputs,
   outputs,
+  useBuiltInStyle = false,
 }: {
   inputs: ReactNode;
   outputs: ReactNode;
+  useBuiltInStyle?: boolean;
 }) => {
-  return (
+  return useBuiltInStyle ? (
+    <StyledCounterContentContainer>
+      <ExtraStyledInputsContainer>{inputs}</ExtraStyledInputsContainer>
+      <ExtraStyledOutputsContainer>{outputs}</ExtraStyledOutputsContainer>
+    </StyledCounterContentContainer>
+  ) : (
     <StyledCounterContentContainer>
       <StyledInputsContainer>{inputs}</StyledInputsContainer>
       <StyledOutputsContainer>{outputs}</StyledOutputsContainer>

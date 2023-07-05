@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/templates/Layout';
+import CurrencyContextWrapper from './components/organisms/CurrencyCalc/CurrencyContextWrapper';
 
 const AmountInWords = lazy(() => import('./pages/Amount_in_words'));
 const CurrencyCalc = lazy(() => import('./pages/Currency_calculator'));
@@ -32,7 +33,12 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  // CurrencyContextWrapper to keep currency data in memory during browser session
+  return (
+    <CurrencyContextWrapper>
+      <RouterProvider router={router} />
+    </CurrencyContextWrapper>
+  );
 }
 
 export default App;

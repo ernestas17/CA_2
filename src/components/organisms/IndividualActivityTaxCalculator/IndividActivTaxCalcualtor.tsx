@@ -27,7 +27,6 @@ const IndividActivTaxCalcualtor = () => {
   const [calculatedVSD, setCalculatedVSD] = useState<string>('');
   const [calculatedPSD, setCalculatedPSD] = useState<string>('');
   const [sodraCalculatedTotal, setSodraCalculatedTotal] = useState<string>('');
-  //   const [sodraPaidTotal, setSodraPaidTotal] = useState<string>('');
 
   const [savingAdditional, setSavingAdditional] = useState<string>('Ne');
 
@@ -38,16 +37,7 @@ const IndividActivTaxCalcualtor = () => {
 
   useEffect(() => {
     calculateOutputs();
-  }, [
-    income,
-    costsIncurred,
-    selectedCostCalculation,
-    savingAdditional,
-    // calculatedCostsIncurred,
-    // taxableIncome,
-    // sodraCalculatedTotal,
-    //sodraPaidTotal,
-  ]);
+  }, [income, costsIncurred, selectedCostCalculation, savingAdditional]);
 
   const calculateOutputs = () => {
     const calcIncome = parseFloat(income);
@@ -61,10 +51,9 @@ const IndividActivTaxCalcualtor = () => {
     let calculatedVSD = '';
     let calculatedPSD = '';
     let sodraCalculatedTotal = '';
-    // let sodraPaidTotal = '';
 
     const updateVSDandSodraTotal = () => {
-      // calculating "Sodra" contributions
+      // calculating "Sodra"
       if (savingAdditional === 'Ne') {
         calculatedVSD = (
           (parseFloat(calculatedContributionBase) * 12.52) /
@@ -80,7 +69,6 @@ const IndividActivTaxCalcualtor = () => {
       sodraCalculatedTotal = (
         parseFloat(calculatedVSD) + parseFloat(calculatedPSD)
       ).toFixed(2);
-      console.log('sodraCalculatedTotal ' + sodraCalculatedTotal);
     };
 
     const updateTaxibleIncome = () => {
@@ -95,8 +83,6 @@ const IndividActivTaxCalcualtor = () => {
           calcCostsIncurred -
           parseFloat(sodraCalculatedTotal)
         ).toFixed(2);
-
-        console.log('taxableIncome ' + taxableIncome);
       }
     };
 
@@ -105,20 +91,7 @@ const IndividActivTaxCalcualtor = () => {
         parseFloat(calculatedContributionBase) * 0.0698,
         703.56
       ).toFixed(2);
-      //   if  {
-      //     const oneMonthPSD = ((840 * 6.98) / 100).toFixed(2);
-      //     calculatedPSD = (parseFloat(oneMonthPSD) * 12).toFixed(2);
-      //     // calculatedPSD = (((840 * 6.98) / 100) * 12).toFixed(2);
-      //   } else {
-      //     calculatedPSD = (
-      //       (parseFloat(calculatedContributionBase) * 6.98) /
-      //       100
-      //     ).toFixed(2);
-      //   }
-      console.log('calculatedPSD ' + calculatedPSD);
     };
-
-    console.log('-------------------------');
 
     if (selectedCostCalculation === '30% nuo pajamų') {
       calculatedCostsIncurred = (calcIncome * 0.3).toFixed(2);
@@ -135,7 +108,6 @@ const IndividActivTaxCalcualtor = () => {
         (calcIncome - parseFloat(calculatedCostsIncurred)) *
         0.9
       ).toFixed(2);
-      //vsd
       updatePSD();
       updateVSDandSodraTotal();
       updateTaxibleIncome();
@@ -154,9 +126,6 @@ const IndividActivTaxCalcualtor = () => {
           ? '0'
           : calculatedIncomeTaxCredit.toFixed(2);
     }
-
-    console.log('taxableIncome2 ' + taxableIncome);
-    console.log('incomeTaxCredit ' + incomeTaxCredit);
 
     const calculatedGMP =
       parseFloat(taxableIncome) * 0.15 - parseFloat(incomeTaxCredit);

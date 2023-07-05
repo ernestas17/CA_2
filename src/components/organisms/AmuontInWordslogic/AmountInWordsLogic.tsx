@@ -37,16 +37,33 @@ const tensDigits: string[] = [
 ];
 const scaleNames: string[] = [
   "",
-  "šimtas",
-  "tūkstantis",
-  "milijonas",
-  "bilijonas",
-  "trilijonas",
+  "tūkstančiai",
+  "milijonai",
+  "bilijonai",
+  "trilijonai",
 ];
+
+// 10 000, 100 000 ir pan nedarašo scaleName.
+// 10 - 20 turi rašyti "tūkstančiai", ten kur vienetu baigiasi tūkstančiai ar šimtai ar ir pan, turi būti vienaiskaitos galūnė
+
+// const hundreds: number = number % 1000; // 1485 - 485
+// const tens: number = hundreds % 100; // 1485 - 85
+// const digit: number = Math.floor(hundreds / 100); // 1485 - 4
+// const tensDigit: number = Math.floor(tens / 10); // 1485 - 8
+// const onesDigit: number = tens % 10; // 1485 - 5
 
 function convertToWords(number: number): string {
   if (number === 0) {
     return "Įveskite sumą ir ji bus paversta žodžiais.";
+  }
+
+  if (number === 1000) {
+    return "tūkstantis";
+  }
+
+  if (number > 1000 && number < 2000) {
+    const hundreds: number = number % 1000;
+    return `tūkstantis ${convertToWords(hundreds)}`;
   }
 
   let words: string = "";
@@ -63,37 +80,18 @@ function convertToWords(number: number): string {
       let scaleWords: string = "";
 
       if (digit !== 0) {
-        if (digit === 1 && tens === 0 && scaleIndex === 0) {
-          scaleWords += "šimtas";
-        } else if (digit === 1 && tens === 0 && scaleIndex === 1) {
-          scaleWords += "tūkstantis";
-        } else if (digit === 1 && tens === 0 && scaleIndex === 2) {
-          scaleWords += "milijonas";
-        } else if (digit === 1 && tens === 0 && scaleIndex === 3) {
-          scaleWords += "bilijonas";
-        } else {
-          scaleWords += `${singleDigits[digit]} ${getScaleWord(scaleIndex)}`;
-        }
+        scaleWords += `${digit === 1 ? "" : singleDigits[digit]} ${
+          digit === 1 ? "šimtas" : "šimtai"
+        }`;
+
         if (scaleName !== "") {
-          scaleWords += " ";
+          scaleWords += "";
         }
       }
 
-      function getScaleWord(scaleIndex: number): string {
-        if (scaleIndex === 1) {
-          return "šimtai";
-        } else if (scaleIndex === 2) {
-          return "tūkstančiai";
-        } else if (scaleIndex === 3) {
-          return "milijonai";
-        } else if (scaleIndex === 4) {
-          return "bilijonai";
-        } else {
-          return scaleNames[scaleIndex];
-        }
-      }
-
-      if (tens >= 11 && tens <= 19) {
+      if (hundreds === 100 && scaleIndex === 1) {
+        scaleWords = "tūkstantis";
+      } else if (tens >= 11 && tens <= 19) {
         scaleWords += ` ${singleDigits[tens]}`;
       } else {
         const tensDigit: number = Math.floor(tens / 10);

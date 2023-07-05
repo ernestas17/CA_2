@@ -1,4 +1,4 @@
-import React, { ChangeEvent} from 'react';
+import React, { ChangeEvent } from 'react';
 import { StyledRadio, StyledRadioLabelWrapper } from './styles';
 
 interface IRadioProps {
@@ -16,14 +16,11 @@ export const RadioItem = ({
   checked,
   onChange,
 }: IRadioProps) => {
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
       onChange(event.target.value);
     }
   };
-
-
 
   return (
     <StyledRadioLabelWrapper>

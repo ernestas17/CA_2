@@ -1,10 +1,12 @@
-import Vat_calc from "../../components/organisms/Vat_calc";
+import { StyledCalcSection } from '../../components/molecules/CounterContentContainer/styles';
+import Vat_calc from '../../components/organisms/Vat_calc';
 
 const VATCalc = () => {
   return (
-    <div>
+    <StyledCalcSection>
+      <h1>PVM Skaičiuoklė</h1>
       <Vat_calc />
-    </div>
+    </StyledCalcSection>
   );
 };
 

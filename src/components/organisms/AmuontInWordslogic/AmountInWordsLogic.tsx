@@ -73,22 +73,13 @@ function convertToWords(number: number): string {
     return "Įveskite sumą ir ji bus paversta žodžiais.";
   }
 
-  if (number === 1000) {
-    return "tūkstantis";
-  }
-
-  if (number > 1000 && number < 2000) {
-    const hundreds: number = number % 1000;
-    return `tūkstantis ${convertToWords(hundreds)}`;
-  }
-
   let words: string = "";
   let scaleIndex: number = 0;
 
   while (number > 0) {
     const hundreds: number = number % 1000; // takes last 3 digits
 
-    if (hundreds !== 0) {
+    if (hundreds !== 0 || number >= 1000) {
       const digit: number = Math.floor(hundreds / 100); // third digit from right
       const tens: number = hundreds % 100; // two rightmost digits
 
@@ -108,12 +99,16 @@ function convertToWords(number: number): string {
         const tensDigit: number = Math.floor(tens / 10);
         const onesDigit: number = tens % 10;
 
-        if (tensDigit !== 0) {
-          scaleWords += ` ${tensDigits[tensDigit]}`;
-        }
+        if (
+          !(scaleIndex > 0 && onesDigit === 1 && tensDigit === 0 && digit === 0)
+        ) {
+          if (tensDigit !== 0) {
+            scaleWords += ` ${tensDigits[tensDigit]}`;
+          }
 
-        if (onesDigit !== 0 && tensDigit !== 1) {
-          scaleWords += ` ${singleDigits[onesDigit]}`;
+          if (onesDigit !== 0 && tensDigit !== 1) {
+            scaleWords += ` ${singleDigits[onesDigit]}`;
+          }
         }
 
         scaleName =
@@ -123,13 +118,8 @@ function convertToWords(number: number): string {
             ? scaleNamesPluralFull[scaleIndex]
             : scaleNamesPlural[scaleIndex];
       }
-
-      if (words !== "") {
-        if (scaleName !== "" && scaleWords.trim() !== "") {
-          words = `${scaleWords} ${scaleName} ${words}`;
-        } else {
-          words = `${scaleWords}${words}`;
-        }
+      if (words !== "" || scaleName !== "") {
+        words = `${scaleWords} ${scaleName} ${words}`;
       } else {
         words = scaleWords;
       }

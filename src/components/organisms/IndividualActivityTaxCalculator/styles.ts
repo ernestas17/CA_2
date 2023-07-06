@@ -16,6 +16,12 @@ export const SyledRadioWithLabel = styled.div`
   gap: 0.25em;
 `;
 
+export const StyledOutputContainer = styled.div`
+  &:last-child {
+    border: none;
+  }
+`;
+
 export const StyledTitleRow1 = styled.div`
   display: flex;
   width: 100%;
@@ -23,8 +29,6 @@ export const StyledTitleRow1 = styled.div`
   background-color: #ff9a0c;
   color: white;
   padding: 0.25rem;
-
-  
 `;
 
 export const StyledTitleRow2 = styled.div`

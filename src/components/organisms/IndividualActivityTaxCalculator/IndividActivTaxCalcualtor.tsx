@@ -2,7 +2,17 @@ import { useEffect, useState } from 'react';
 import CounterContentContainer from '../../molecules/CounterContentContainer';
 import Input from '../../atoms/Input';
 import RadioWrapper, { RadioItem } from '../../atoms/Radio/Radio';
-import { StyledColumnLable, StyledColumnNum, StyledContentContainer, StyledLableColumn, StyledRow, StyledTitleRow1, StyledTitleRow2, SyledRadioWithLabel} from './styles';
+import {
+  StyledColumnLable,
+  StyledColumnNum,
+  StyledContentContainer,
+  StyledLableColumn,
+  StyledOutputContainer,
+  StyledRow,
+  StyledTitleRow1,
+  StyledTitleRow2,
+  SyledRadioWithLabel,
+} from './styles';
 import { StyledFieldWithLabel } from '../../molecules/CounterContentContainer/styles';
 
 const IndividActivTaxCalcualtor = () => {
@@ -178,11 +188,11 @@ const IndividActivTaxCalcualtor = () => {
 
   return (
     <StyledContentContainer>
-       <h1>Individualios veiklos skaičiuoklė</h1>
+      <h1>Individualios veiklos skaičiuoklė</h1>
       <CounterContentContainer
         useBuiltInStyle
         inputs={
-          <>
+          <StyledOutputContainer>
             <StyledFieldWithLabel>
               <label>Pajamos</label>
               <Input
@@ -266,10 +276,10 @@ const IndividActivTaxCalcualtor = () => {
                 />
               </RadioWrapper>
             </SyledRadioWithLabel>
-          </>
+          </StyledOutputContainer>
         }
         outputs={
-          <div>
+          <StyledOutputContainer>
             <StyledFieldWithLabel>
               <label>Gautos pajamos:</label>
               <p>{getStringOrEmpty(getNumberOrZero(incomeReceived))}</p>
@@ -300,14 +310,24 @@ const IndividActivTaxCalcualtor = () => {
             </StyledTitleRow1>
             <StyledRow>
               <StyledLableColumn>Priskaičiuota:</StyledLableColumn>
-              <StyledColumnNum>{getStringOrEmpty(getNumberOrZero(calculatedVSD))}</StyledColumnNum>
-              <StyledColumnNum>{getStringOrEmpty(getNumberOrZero(calculatedPSD))}</StyledColumnNum>
-              <StyledColumnNum>{getStringOrEmpty(getNumberOrZero(sodraCalculatedTotal))}</StyledColumnNum>
+              <StyledColumnNum>
+                {getStringOrEmpty(getNumberOrZero(calculatedVSD))}
+              </StyledColumnNum>
+              <StyledColumnNum>
+                {getStringOrEmpty(getNumberOrZero(calculatedPSD))}
+              </StyledColumnNum>
+              <StyledColumnNum>
+                {getStringOrEmpty(getNumberOrZero(sodraCalculatedTotal))}
+              </StyledColumnNum>
             </StyledRow>
             <StyledRow>
               <StyledLableColumn>Sumokėta:</StyledLableColumn>
-              <StyledColumnNum>{getStringOrEmpty(getNumberOrZero(paidVSD))}</StyledColumnNum>
-              <StyledColumnNum>{getStringOrEmpty(getNumberOrZero(paidPSD))}</StyledColumnNum>
+              <StyledColumnNum>
+                {getStringOrEmpty(getNumberOrZero(paidVSD))}
+              </StyledColumnNum>
+              <StyledColumnNum>
+                {getStringOrEmpty(getNumberOrZero(paidPSD))}
+              </StyledColumnNum>
               <StyledColumnNum>
                 {getStringOrEmpty(
                   getNumberOrZero(paidVSD) + getNumberOrZero(paidPSD)
@@ -319,18 +339,24 @@ const IndividActivTaxCalcualtor = () => {
               <StyledColumnNum>
                 {isNaN(Number(calculatedVSD))
                   ? '0.00'
-                  : (parseFloat(calculatedVSD) - getNumberOrZero(paidVSD)).toFixed(2)}
+                  : (
+                      parseFloat(calculatedVSD) - getNumberOrZero(paidVSD)
+                    ).toFixed(2)}
               </StyledColumnNum>
               <StyledColumnNum>
                 {isNaN(Number(calculatedPSD))
                   ? '0.00'
-                  : (parseFloat(calculatedPSD) - getNumberOrZero(paidPSD)).toFixed(2)}
+                  : (
+                      parseFloat(calculatedPSD) - getNumberOrZero(paidPSD)
+                    ).toFixed(2)}
               </StyledColumnNum>
               <StyledColumnNum>
                 {isNaN(Number(sodraCalculatedTotal))
                   ? '0.00'
-                  : (parseFloat(sodraCalculatedTotal) -
-                    (getNumberOrZero(paidVSD) + getNumberOrZero(paidPSD))).toFixed(2)}
+                  : (
+                      parseFloat(sodraCalculatedTotal) -
+                      (getNumberOrZero(paidVSD) + getNumberOrZero(paidPSD))
+                    ).toFixed(2)}
               </StyledColumnNum>
             </StyledRow>
 
@@ -358,7 +384,7 @@ const IndividActivTaxCalcualtor = () => {
               <label>Grynasis pelnas:</label>
               <p>{getStringOrEmpty(getNumberOrZero(netProfit))}</p>
             </StyledFieldWithLabel>
-          </div>
+          </StyledOutputContainer>
         }
       />
     </StyledContentContainer>

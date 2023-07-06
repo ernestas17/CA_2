@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import CounterContentContainer from '../../molecules/CounterContentContainer';
 import Input from '../../atoms/Input';
-import RadioWrapper, { RadioItem } from '../../atoms/Radio/Radio';
+import { RadioItem } from '../../atoms/Radio/Radio';
 import {
   StyledColumnLable,
   StyledColumnNum,

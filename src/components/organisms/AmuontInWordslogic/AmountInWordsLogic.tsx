@@ -79,7 +79,10 @@ function convertToWords(number: number): string {
   while (number > 0) {
     const hundreds: number = number % 1000; // takes last 3 digits
 
-    if (hundreds !== 0 || number >= 1000) {
+    if (
+      hundreds !== 0 ||
+      (number >= 1000 && !(number % Math.pow(1000, scaleIndex - 1) === 0))
+    ) {
       const digit: number = Math.floor(hundreds / 100); // third digit from right
       const tens: number = hundreds % 100; // two rightmost digits
 

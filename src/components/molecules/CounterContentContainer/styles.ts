@@ -8,10 +8,13 @@ export const StyledCounterContentContainer = styled.section`
   justify-content: center;
   margin: 0 auto;
   padding: 50px 30px;
+  /* padding: 1.25rem; */ /* Pagal bulmos box turetu buti paddingas 1.25rem */
   gap: 20px;
 
+
   border: 1px solid whitesmoke;
-  border-radius: 4px;
+  border-radius: 6px;
+  box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.02);
 
   @media screen and (min-width: 768px) {
     flex-direction: row;

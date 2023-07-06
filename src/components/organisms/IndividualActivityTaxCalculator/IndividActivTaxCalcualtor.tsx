@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import CounterContentContainer from '../../molecules/CounterContentContainer';
 import Input from '../../atoms/Input';
 import RadioWrapper, { RadioItem } from '../../atoms/Radio/Radio';
-import { StyledColumnLable, StyledContentContainer, StyledLableColumn, StyledRow, StyledTitleRow1, StyledTitleRow2, SyledRadioWithLabel, SyledRadioWrapper } from './styles';
+import { StyledColumnLable, StyledColumnNum, StyledContentContainer, StyledLableColumn, StyledRow, StyledTitleRow1, StyledTitleRow2, SyledRadioWithLabel, SyledRadioWrapper } from './styles';
 import { StyledFieldWithLabel } from '../../molecules/CounterContentContainer/styles';
 
 const IndividActivTaxCalcualtor = () => {
@@ -300,38 +300,38 @@ const IndividActivTaxCalcualtor = () => {
             </StyledTitleRow1>
             <StyledRow>
               <StyledLableColumn>Priskaičiuota:</StyledLableColumn>
-              <p>{getStringOrEmpty(getNumberOrZero(calculatedVSD))}</p>
-              <p>{getStringOrEmpty(getNumberOrZero(calculatedPSD))}</p>
-              <p>{getStringOrEmpty(getNumberOrZero(sodraCalculatedTotal))}</p>
+              <StyledColumnNum>{getStringOrEmpty(getNumberOrZero(calculatedVSD))}</StyledColumnNum>
+              <StyledColumnNum>{getStringOrEmpty(getNumberOrZero(calculatedPSD))}</StyledColumnNum>
+              <StyledColumnNum>{getStringOrEmpty(getNumberOrZero(sodraCalculatedTotal))}</StyledColumnNum>
             </StyledRow>
             <StyledRow>
               <StyledLableColumn>Sumokėta:</StyledLableColumn>
-              <p>{getStringOrEmpty(getNumberOrZero(paidVSD))}</p>
-              <p>{getStringOrEmpty(getNumberOrZero(paidPSD))}</p>
-              <p>
+              <StyledColumnNum>{getStringOrEmpty(getNumberOrZero(paidVSD))}</StyledColumnNum>
+              <StyledColumnNum>{getStringOrEmpty(getNumberOrZero(paidPSD))}</StyledColumnNum>
+              <StyledColumnNum>
                 {getStringOrEmpty(
                   getNumberOrZero(paidVSD) + getNumberOrZero(paidPSD)
                 )}
-              </p>
+              </StyledColumnNum>
             </StyledRow>
             <StyledRow>
               <StyledLableColumn>Liko mokėti:</StyledLableColumn>
-              <p>
+              <StyledColumnNum>
                 {isNaN(Number(calculatedVSD))
                   ? '0.00'
-                  : parseFloat(calculatedVSD) - getNumberOrZero(paidVSD)}
-              </p>
-              <p>
+                  : (parseFloat(calculatedVSD) - getNumberOrZero(paidVSD)).toFixed(2)}
+              </StyledColumnNum>
+              <StyledColumnNum>
                 {isNaN(Number(calculatedPSD))
                   ? '0.00'
-                  : parseFloat(calculatedPSD) - getNumberOrZero(paidPSD)}
-              </p>
-              <p>
+                  : (parseFloat(calculatedPSD) - getNumberOrZero(paidPSD)).toFixed(2)}
+              </StyledColumnNum>
+              <StyledColumnNum>
                 {isNaN(Number(sodraCalculatedTotal))
                   ? '0.00'
-                  : parseFloat(sodraCalculatedTotal) -
-                    (getNumberOrZero(paidVSD) + getNumberOrZero(paidPSD))}
-              </p>
+                  : (parseFloat(sodraCalculatedTotal) -
+                    (getNumberOrZero(paidVSD) + getNumberOrZero(paidPSD))).toFixed(2)}
+              </StyledColumnNum>
             </StyledRow>
 
             <StyledTitleRow1>

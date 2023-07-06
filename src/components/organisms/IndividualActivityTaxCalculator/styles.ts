@@ -50,6 +50,13 @@ export const StyledRow = styled.div`
 `;
 
 export const StyledColumnLable = styled.label`
+max-width: 110px;
+width: calc(70% / 3);
+text-align: right;
+`;
+
+export const StyledColumnNum = styled.p`
+max-width: 110px;
 width: calc(70% / 3);
 text-align: right;
 `;

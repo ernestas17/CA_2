@@ -7,13 +7,14 @@ export const StyledCounterContentContainer = styled.section`
   flex-direction: column;
   justify-content: center;
   margin: 0 auto;
-  padding: 50px 30px;
+  padding: 2.5em 1.875em;
   /* padding: 1.25rem; */ /* Pagal bulmos box turetu buti paddingas 1.25rem */
-  gap: 20px;
+  gap: 1.25rem;
+  color: rgb(54, 54, 54);
 
-
-  border-radius: 6px;
-  box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.02);
+  border-radius: 0.375rem;
+  box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
+    0 0 0 1px rgba(10, 10, 10, 0.02);
 
   @media screen and (min-width: 768px) {
     flex-direction: row;
@@ -37,10 +38,10 @@ export const ExtraStyledInputsContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 10px;
+  gap: 0.75rem;
 
-  margin-bottom: 50px;
-  padding-bottom: 50px;
+  margin-bottom: 2.5em;
+  padding-bottom: 2.5em;
   border-bottom: 2px solid #ccc;
 
   @media screen and (min-width: 768px) {
@@ -48,7 +49,7 @@ export const ExtraStyledInputsContainer = styled.div`
     padding-bottom: 0px;
     border-bottom: none;
 
-    padding-right: 20px;
+    padding-right: 1.25em;
     border-right: 2px solid #ccc;
   }
 
@@ -66,10 +67,10 @@ export const ExtraStyledOutputsContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 35px;
+  gap: 1.5rem;
 
   p {
-    font-size: 20px;
+    font-size: 1.25rem;
 
     cursor: default;
   }
@@ -83,11 +84,16 @@ export const ExtraStyledOutputsContainer = styled.div`
 export const StyledCalcSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 43px;
+  gap: 40px;
 
   h1 {
     align-self: center;
+    color: rgb(54, 54, 54);
   }
+
+  /* label{
+    font-weight: 600;
+  } */
 `;
 
 //** intended for laying out label and value side by side */
@@ -98,4 +104,5 @@ export const StyledFieldWithLabel = styled.div`
   justify-content: space-between;
 
   gap: 20px;
+
 `;

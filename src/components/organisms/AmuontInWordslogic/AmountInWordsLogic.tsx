@@ -35,12 +35,28 @@ const tensDigits: string[] = [
   "aštuoniasdešimt",
   "devyniasdešimt",
 ];
-const scaleNames: string[] = [
+const scaleNamesPlural: string[] = [
   "",
   "tūkstančiai",
   "milijonai",
   "bilijonai",
   "trilijonai",
+];
+
+const scaleNamesSingular: string[] = [
+  "",
+  "tūkstantis",
+  "milijonas",
+  "bilijonas",
+  "trilijonas",
+];
+
+const scaleNamesPluralFull: string[] = [
+  "",
+  "tūkstančių",
+  "milijonų",
+  "bilijonų",
+  "trilijonų",
 ];
 
 // 10 000, 100 000 ir pan nedarašo scaleName.
@@ -70,29 +86,24 @@ function convertToWords(number: number): string {
   let scaleIndex: number = 0;
 
   while (number > 0) {
-    const hundreds: number = number % 1000;
+    const hundreds: number = number % 1000; // takes last 3 digits
 
     if (hundreds !== 0) {
-      const digit: number = Math.floor(hundreds / 100);
-      const tens: number = hundreds % 100;
-      const scaleName: string = scaleNames[scaleIndex];
+      const digit: number = Math.floor(hundreds / 100); // third digit from right
+      const tens: number = hundreds % 100; // two rightmost digits
 
-      let scaleWords: string = "";
+      let scaleName = "";
+      let scaleWords = "";
 
       if (digit !== 0) {
         scaleWords += `${digit === 1 ? "" : singleDigits[digit]} ${
           digit === 1 ? "šimtas" : "šimtai"
         }`;
-
-        if (scaleName !== "") {
-          scaleWords += "";
-        }
       }
 
-      if (hundreds === 100 && scaleIndex === 1) {
-        scaleWords = "tūkstantis";
-      } else if (tens >= 11 && tens <= 19) {
+      if (tens >= 11 && tens <= 19) {
         scaleWords += ` ${singleDigits[tens]}`;
+        scaleName = scaleNamesPluralFull[scaleIndex];
       } else {
         const tensDigit: number = Math.floor(tens / 10);
         const onesDigit: number = tens % 10;
@@ -104,6 +115,13 @@ function convertToWords(number: number): string {
         if (onesDigit !== 0 && tensDigit !== 1) {
           scaleWords += ` ${singleDigits[onesDigit]}`;
         }
+
+        scaleName =
+          onesDigit === 1
+            ? scaleNamesSingular[scaleIndex]
+            : onesDigit === 0
+            ? scaleNamesPluralFull[scaleIndex]
+            : scaleNamesPlural[scaleIndex];
       }
 
       if (words !== "") {
@@ -117,7 +135,7 @@ function convertToWords(number: number): string {
       }
     }
 
-    number = Math.floor(number / 1000);
+    number = Math.floor(number / 1000); //removes last 3 digits, so next iteration the number will be treated as not having them (ex. 87654321 -> 87654)
     scaleIndex++;
   }
 
@@ -131,6 +149,23 @@ function AmountInWordsLogic() {
     <div>
       <Input type="text" value={number} setvalue={setNumber} width={200} />
       <p>{convertToWords(Number(number))}</p>
+      <br />
+      {/* LOCAL SANDBOX: REMOVE IN PRODUCTION!!!*/}
+      <button
+        onClick={() =>
+          setNumber(
+            parseInt(
+              "0" +
+                Array(Math.round(Math.random() * 12))
+                  .fill(0)
+                  .map(() => [0, 1, 2, 9][Math.round(Math.random() * 3)])
+                  .join("")
+            ).toString()
+          )
+        }
+      >
+        random
+      </button>
     </div>
   );
 }

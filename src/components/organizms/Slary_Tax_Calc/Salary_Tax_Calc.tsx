@@ -3,6 +3,7 @@ import Input from '../../atoms/Input';
 import RadioWrapper from '../../atoms/Radio';
 import CounterContentContainer from '../../molecules/CounterContentContainer';
 import { RadioItem } from '../../atoms/Radio/Radio';
+import { StyledFieldWithLabel } from '../../molecules/CounterContentContainer/styles';
 
 interface CalculatedSalaryDetails {
   bruttoSalary: number;
@@ -205,19 +206,10 @@ const Salary_Tax_Calc = () => {
 
   return (
     <CounterContentContainer
+      useBuiltInStyle
       inputs={
-        <div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '5px',
-              marginBottom: '20px',
-            }}
-          >
-            <label>Metai...</label>
-          </div>
-          <div style={{ display: 'flex', gap: '5px', marginBottom: '20px' }}>
+        <>
+          <StyledFieldWithLabel>
             <label>Atlyginimas</label>
             <RadioWrapper>
               <RadioItem
@@ -235,9 +227,8 @@ const Salary_Tax_Calc = () => {
                 value='į rankas'
               />
             </RadioWrapper>
-          </div>
-
-          <div style={{ display: 'flex', gap: '5px', marginBottom: '20px' }}>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
             <label>
               {salaryType === 'ant popieriaus'
                 ? '"Ant popieriaus"'
@@ -260,9 +251,8 @@ const Salary_Tax_Calc = () => {
                 width={200}
               />
             )}
-          </div>
-
-          <div style={{ display: 'flex', gap: '5px', marginBottom: '20px' }}>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
             <label>Kaip skaičiuoti NPD?</label>
             <RadioWrapper>
               <RadioItem
@@ -280,32 +270,33 @@ const Salary_Tax_Calc = () => {
                 value='netaikyti NPD'
               />
             </RadioWrapper>
-          </div>
-
-          <div style={{ display: 'flex', gap: '5px' }}>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
             <label>Kaupiu pensijai papildomai 3%</label>
-            <RadioItem
-              label='kaupiu'
-              name='pensionCalculationType'
-              checked={pensionType === 'kaupiu'}
-              onChange={handleForPensionTypeChange}
-              value='kaupiu'
-            />
-            <RadioItem
-              label='nekaupiu'
-              name='pensionCalculationType'
-              checked={pensionType === 'nekaupiu'}
-              onChange={handleForPensionTypeChange}
-              value='nekaupiu'
-            />
-          </div>
-        </div>
+            <RadioWrapper>
+              <RadioItem
+                label='kaupiu'
+                name='pensionCalculationType'
+                checked={pensionType === 'kaupiu'}
+                onChange={handleForPensionTypeChange}
+                value='kaupiu'
+              />
+              <RadioItem
+                label='nekaupiu'
+                name='pensionCalculationType'
+                checked={pensionType === 'nekaupiu'}
+                onChange={handleForPensionTypeChange}
+                value='nekaupiu'
+              />
+            </RadioWrapper>
+          </StyledFieldWithLabel>
+        </>
       }
       outputs={
-        <div>
-          <div>
+        <>
+          <StyledFieldWithLabel>
+            <label>Priskaičiuotas atlyginimas "ant popieriaus"</label>
             <p>
-              Priskaičiuotas atlyginimas "ant popieriaus"
               {salaryType === 'ant popieriaus'
                 ? ` ${
                     getNumberOrZero(getOutputValue()) &&
@@ -316,47 +307,45 @@ const Salary_Tax_Calc = () => {
                     calculatedSalaryDetails.bruttoSalary.toFixed(2)
                   }`}
             </p>
-          </div>
-          <div>
-            <p>Pritaikytas NPD {calculatedSalaryDetails.npd}</p>
-          </div>
-          <div>
-            <p>Pajamų mokestis 20 %{calculatedSalaryDetails.gpm.toFixed(2)}</p>
-          </div>
-          <div>
-            <p>
-              Sodra. Sveikatos draudimas 6.98 %
-              {calculatedSalaryDetails.sodra1.toFixed(2)}
-            </p>
-          </div>
-          <div>
-            <p>
-              Sodra. Pensijų ir soc. draudimas
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label>Pritaikytas NPD</label>
+            <p>{calculatedSalaryDetails.npd}</p>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label>Pajamų mokestis 20 %</label>
+            <p>{calculatedSalaryDetails.gpm.toFixed(2)}</p>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label>Sodra. Sveikatos draudimas 6.98 %</label>
+            <p>{calculatedSalaryDetails.sodra1.toFixed(2)}</p>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label>
+              Sodra. Pensijų ir soc. draudimas{' '}
               {pensionType === 'nekaupiu' ? ` 12.52 %` : ` 15.52 %`}
-              {calculatedSalaryDetails.sodra2.toFixed(2)}
-            </p>
-          </div>
-
-          <div>
+            </label>
+            <p>{calculatedSalaryDetails.sodra2.toFixed(2)}</p>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label> Išmokamas atlyginimas "į rankas"</label>
+            <p>{calculatedSalaryDetails.nettosalary.toFixed(2)}</p>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label>Darbdavio sumokami mokesčiai</label>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label>Sodra 1.77 %</label>
+            <p>{calculatedSalaryDetails.sodraEmpl.toFixed(2)}</p>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label>Visa darbo vietos kaina</label>
             <p>
-              Išmokamas atlyginimas "į rankas"
-              {calculatedSalaryDetails.nettosalary.toFixed(2)}
-            </p>
-          </div>
-          <div>
-            <p>Darbdavio sumokami mokesčiai</p>
-          </div>
-          <div>
-            <p>Sodra 1.77 % {calculatedSalaryDetails.sodraEmpl.toFixed(2)}</p>
-          </div>
-          <div>
-            <p>
-              Visa darbo vietos kaina
               {getNumberOrZero(calculatedSalaryDetails.workplaceCost) &&
                 calculatedSalaryDetails.workplaceCost.toFixed(2)}
             </p>
-          </div>
-        </div>
+          </StyledFieldWithLabel>
+        </>
       }
     ></CounterContentContainer>
   );

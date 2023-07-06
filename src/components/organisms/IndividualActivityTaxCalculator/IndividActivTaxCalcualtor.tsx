@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import CounterContentContainer from '../../molecules/CounterContentContainer';
 import Input from '../../atoms/Input';
 import RadioWrapper, { RadioItem } from '../../atoms/Radio/Radio';
-import { StyledColumnLable, StyledColumnNum, StyledContentContainer, StyledLableColumn, StyledRow, StyledTitleRow1, StyledTitleRow2, SyledRadioWithLabel, SyledRadioWrapper } from './styles';
+import { StyledColumnLable, StyledColumnNum, StyledContentContainer, StyledLableColumn, StyledRow, StyledTitleRow1, StyledTitleRow2, SyledRadioWithLabel} from './styles';
 import { StyledFieldWithLabel } from '../../molecules/CounterContentContainer/styles';
 
 const IndividActivTaxCalcualtor = () => {

@@ -12,8 +12,15 @@ export const StyledContentContainer = styled.div`
 
 export const SyledRadioWithLabel = styled.div`
   display: flex;
+  /* flex-direction: column; */
+  /* gap: 0.5em; */
+  gap: 1.5em;
+`;
+
+export const SyledRadioWrapper = styled.div`
+  display: flex;
   flex-direction: column;
-  gap: 0.25em;
+  /* gap: 1.5rem; */
 `;
 
 export const StyledOutputContainer = styled.div`
@@ -22,20 +29,14 @@ export const StyledOutputContainer = styled.div`
   }
 `;
 
-export const StyledTitleRow1 = styled.div`
+export const StyledTitleRow = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  background-color: #ff9a0c;
+  background-color: rgb(62, 142, 208);
   color: white;
   padding: 0.25rem;
-`;
-
-export const StyledTitleRow2 = styled.div`
-  width: 100%;
-  background-color: #68a5e6;
-  color: white;
-  padding: 0.25rem;
+  font-weight: 600;
 `;
 
 export const StyledLableColumn = styled.label`

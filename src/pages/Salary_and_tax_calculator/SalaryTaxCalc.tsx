@@ -1,5 +1,5 @@
 import { StyledCalcSection } from '../../components/molecules/CounterContentContainer/styles';
-import Salary_Tax_Calc from '../../components/organizms/Slary_Tax_Calc';
+import Salary_Tax_Calc from '../../components/organisms/Slary_Tax_Calc';
 
 const SalaryTaxCalc = () => {
   return (

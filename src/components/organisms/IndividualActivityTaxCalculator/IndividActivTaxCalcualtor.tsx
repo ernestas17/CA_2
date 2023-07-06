@@ -197,7 +197,7 @@ const IndividActivTaxCalcualtor = () => {
               value={income}
               setvalue={setIncome}
               placeholder='Pajamos'
-              width={300}
+              width={250}
             />
           </StyledFieldWithLabel>
 
@@ -208,7 +208,7 @@ const IndividActivTaxCalcualtor = () => {
               value={costsIncurred}
               setvalue={setCostsIncurred}
               placeholder='Patirtos sąnaudos'
-              width={300}
+              width={250}
             />
           </StyledFieldWithLabel>
 
@@ -219,7 +219,7 @@ const IndividActivTaxCalcualtor = () => {
               value={paidVSD}
               setvalue={setPaidVSD}
               placeholder='Sumokėtas VSD'
-              width={300}
+              width={250}
             />
           </StyledFieldWithLabel>
 
@@ -230,7 +230,7 @@ const IndividActivTaxCalcualtor = () => {
               value={paidPSD}
               setvalue={setPaidPSD}
               placeholder='Sumokėtas PSD'
-              width={300}
+              width={250}
             />
           </StyledFieldWithLabel>
 
@@ -290,13 +290,13 @@ const IndividActivTaxCalcualtor = () => {
             <p>{getStringOrEmpty(getNumberOrZero(taxableIncome))}</p>
           </StyledFieldWithLabel>
           <StyledFieldWithLabel>
-            <label>
+            <label style={{ maxWidth: '70%' }}>
               „Sodros“ įmokų bazė (suma nuo kurios skaičiuojamos VSD ir PSD
               įmokos):
             </label>
             <p>{getStringOrEmpty(getNumberOrZero(contributionBase))}</p>
           </StyledFieldWithLabel>
-          <div>
+          <StyledOutputContainer>
             <StyledTitleRow>
               <StyledLableColumn>Sodra</StyledLableColumn>
               <StyledColumnLable>{VSDLabel()}</StyledColumnLable>
@@ -354,8 +354,8 @@ const IndividActivTaxCalcualtor = () => {
                     ).toFixed(2)}
               </StyledColumnNum>
             </StyledRow>
-          </div>
-          <div>
+          </StyledOutputContainer>
+          <StyledOutputContainer>
             <StyledTitleRow>
               <label>Gyventojų pajamų mokestis</label>
               <label>Suma</label>
@@ -368,8 +368,8 @@ const IndividActivTaxCalcualtor = () => {
               <label>GPM</label>
               <p> {getStringOrEmpty(getNumberOrZero(gmp))}</p>
             </StyledFieldWithLabel>
-          </div>
-          <div>
+          </StyledOutputContainer>
+          <StyledOutputContainer>
             <StyledTitleRow>
               <label>Iš viso</label>
             </StyledTitleRow>
@@ -381,7 +381,7 @@ const IndividActivTaxCalcualtor = () => {
               <label>Grynasis pelnas:</label>
               <p>{getStringOrEmpty(getNumberOrZero(netProfit))}</p>
             </StyledFieldWithLabel>
-          </div>
+          </StyledOutputContainer>
         </>
       }
     />

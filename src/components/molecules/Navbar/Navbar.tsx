@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useRef, useState } from 'react';
 import { StyledNav, StyledLink, StyledBurger } from './styles';
 
 export function NavbarItem({ path, text }: { path: string; text: string }) {
@@ -32,25 +32,24 @@ function NavbarBurger({
 export default function Navbar({ children }: { children: ReactNode }) {
   const navbarMenuRef = useRef<HTMLDivElement | null>(null);
   const [isActive, setIsActive] = useState(false);
-  useEffect(() => {
-    if (isActive) {
-      navbarMenuRef.current?.classList.add('is-active');
-      navbarMenuRef.current?.focus();
-    } else {
-      navbarMenuRef.current?.classList.remove('is-active');
-    }
-  }, [isActive, navbarMenuRef]);
 
   return (
     <StyledNav className='navbar'>
       <div className='navbar-brand'>
         <NavbarBurger
           isActive={isActive}
-          onClick={() => setIsActive((prev) => !prev)}
+          onClick={() => {
+            setIsActive((prev) => {
+              if (!prev) {
+                navbarMenuRef.current?.focus(); //not working, and really not needed according to Bulma standard?
+              }
+              return !prev;
+            });
+          }}
         />
       </div>
       <div
-        className='navbar-menu'
+        className={`navbar-menu${isActive ? ' is-active' : ''}`}
         ref={navbarMenuRef}
         tabIndex={0}
         onBlur={() => setIsActive(false)}

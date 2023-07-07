@@ -69,7 +69,7 @@ const Salary_Tax_Calc = () => {
       } else if (633.21 <= salary && salary <= 1199.01) {
         bruttoSalary = Number(((salary - 195.56) / 0.521).toFixed(2));
       } else if (1199.02 <= salary && salary <= 1732) {
-        Number(((salary - 103.112) / 0.569).toFixed(2));
+        bruttoSalary = Number(((salary - 103.112) / 0.569).toFixed(2));
       } else if (salary >= 1732) {
         bruttoSalary = Number((salary / 0.605).toFixed(2));
       }

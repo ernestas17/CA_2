@@ -9,11 +9,23 @@ export const StyledNav = styled.nav`
   background-color: whitesmoke;
   color: rgba(0, 0, 0, 0.7);
 
+  .navbar-menu {
+    display: none;
+  }
+
   @media screen and (max-width: 1023px) {
     .navbar-menu {
       background-color: white;
       box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
       padding: 0.5rem 0;
+
+      &.is-active {
+        display: block;
+      }
+    }
+
+    .navbar-burger {
+      display: initial;
     }
   }
 
@@ -39,6 +51,10 @@ export const StyledNav = styled.nav`
     .navbar-end {
       justify-content: flex-end;
       margin-left: auto;
+    }
+
+    .navbar-burger {
+      display: none;
     }
   }
 
@@ -92,3 +108,5 @@ export const StyledLink = styled(Link)`
     display: flex;
   }
 `;
+
+export const StyledBurger = styled.a<{ $isActive: boolean }>``;

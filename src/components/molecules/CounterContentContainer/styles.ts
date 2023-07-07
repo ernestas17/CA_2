@@ -91,9 +91,9 @@ export const StyledCalcSection = styled.div`
     color: rgb(54, 54, 54);
   }
 
-  /* label{
+  .boldLabel{
     font-weight: 600;
-  } */
+  }
 `;
 
 //** intended for laying out label and value side by side */

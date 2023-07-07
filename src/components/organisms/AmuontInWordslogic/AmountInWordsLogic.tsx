@@ -1,63 +1,64 @@
-import { useState } from "react";
-import Input from "../../atoms/Input";
-import CounterContentContainer from "../../molecules/CounterContentContainer";
+import { useState } from 'react';
+import Input from '../../atoms/Input';
+import CounterContentContainer from '../../molecules/CounterContentContainer';
+import { StyledFieldWithLabel } from '../../molecules/CounterContentContainer/styles';
 
 const singleDigits: string[] = [
-  "",
-  "vienas",
-  "du",
-  "trys",
-  "keturi",
-  "penki",
-  "šeši",
-  "septyni",
-  "aštuoni",
-  "devyni",
-  "dešimt",
-  "vienuolika",
-  "dvylika",
-  "trylika",
-  "keturiolika",
-  "penkiolika",
-  "šešiolika",
-  "septyniolika",
-  "aštuoniolika",
-  "devyniolika",
+  '',
+  'vienas',
+  'du',
+  'trys',
+  'keturi',
+  'penki',
+  'šeši',
+  'septyni',
+  'aštuoni',
+  'devyni',
+  'dešimt',
+  'vienuolika',
+  'dvylika',
+  'trylika',
+  'keturiolika',
+  'penkiolika',
+  'šešiolika',
+  'septyniolika',
+  'aštuoniolika',
+  'devyniolika',
 ];
 const tensDigits: string[] = [
-  "",
-  "dešimt",
-  "dvidešimt",
-  "trisdešimt",
-  "keturiasdešimt",
-  "penkiasdešimt",
-  "šešiasdešimt",
-  "septyniasdešimt",
-  "aštuoniasdešimt",
-  "devyniasdešimt",
+  '',
+  'dešimt',
+  'dvidešimt',
+  'trisdešimt',
+  'keturiasdešimt',
+  'penkiasdešimt',
+  'šešiasdešimt',
+  'septyniasdešimt',
+  'aštuoniasdešimt',
+  'devyniasdešimt',
 ];
 const scaleNamesPlural: string[] = [
-  "",
-  "tūkstančiai",
-  "milijonai",
-  "bilijonai",
-  "trilijonai",
+  '',
+  'tūkstančiai',
+  'milijonai',
+  'bilijonai',
+  'trilijonai',
 ];
 
 const scaleNamesSingular: string[] = [
-  "",
-  "tūkstantis",
-  "milijonas",
-  "bilijonas",
-  "trilijonas",
+  '',
+  'tūkstantis',
+  'milijonas',
+  'bilijonas',
+  'trilijonas',
 ];
 
 const scaleNamesPluralFull: string[] = [
-  "",
-  "tūkstančių",
-  "milijonų",
-  "bilijonų",
-  "trilijonų",
+  '',
+  'tūkstančių',
+  'milijonų',
+  'bilijonų',
+  'trilijonų',
 ];
 
 // 10 000, 100 000 ir pan nedarašo scaleName.
@@ -71,10 +72,10 @@ const scaleNamesPluralFull: string[] = [
 
 function convertToWords(number: number): string {
   if (number === 0) {
-    return "Įveskite sumą ir ji bus paversta žodžiais.";
+    return 'Įveskite sumą ir ji bus paversta žodžiais.';
   }
 
-  let words = "";
+  let words = '';
   let scaleIndex = 0;
 
   while (number > 0) {
@@ -87,12 +88,12 @@ function convertToWords(number: number): string {
       const digit: number = Math.floor(hundreds / 100); // third digit from right
       const tens: number = hundreds % 100; // two rightmost digits
 
-      let scaleName = "";
-      let scaleWords = "";
+      let scaleName = '';
+      let scaleWords = '';
 
       if (digit !== 0) {
-        scaleWords += `${digit === 1 ? "" : singleDigits[digit]} ${
-          digit === 1 ? "šimtas" : "šimtai"
+        scaleWords += `${digit === 1 ? '' : singleDigits[digit]} ${
+          digit === 1 ? 'šimtas' : 'šimtai'
         }`;
       }
 
@@ -122,7 +123,7 @@ function convertToWords(number: number): string {
             ? scaleNamesPluralFull[scaleIndex]
             : scaleNamesPlural[scaleIndex];
       }
-      if (words !== "" || scaleName !== "") {
+      if (words !== '' || scaleName !== '') {
         words = `${scaleWords} ${scaleName} ${words}`;
       } else {
         words = scaleWords;
@@ -137,21 +138,28 @@ function convertToWords(number: number): string {
 }
 
 function AmountInWordsLogic() {
-  const [number, setNumber] = useState<string>("");
+  const [number, setNumber] = useState<string>('');
 
   return (
     <CounterContentContainer
       useBuiltInStyle
       inputs={
-        <div>
-          <label>Įveskite sumą</label>
-          <Input type="text" value={number} setvalue={setNumber} width={200} />
-        </div>
+
+          <StyledFieldWithLabel>
+            <label className='boldLabel'>Įveskite sumą</label>
+            <Input
+              type='text'
+              value={number}
+              setvalue={setNumber}
+              width={250}
+            />
+          </StyledFieldWithLabel>
+
       }
       outputs={
-        <div>
+        <StyledFieldWithLabel>
           <p>{convertToWords(Number(number))}</p>
-        </div>
+        </StyledFieldWithLabel>
       }
     />
   );

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Input from "../../atoms/Input";
+import CounterContentContainer from "../../molecules/CounterContentContainer";
 
 const singleDigits: string[] = [
   "",
@@ -73,8 +74,8 @@ function convertToWords(number: number): string {
     return "Įveskite sumą ir ji bus paversta žodžiais.";
   }
 
-  let words: string = "";
-  let scaleIndex: number = 0;
+  let words = "";
+  let scaleIndex = 0;
 
   while (number > 0) {
     const hundreds: number = number % 1000; // takes last 3 digits
@@ -139,27 +140,20 @@ function AmountInWordsLogic() {
   const [number, setNumber] = useState<string>("");
 
   return (
-    <div>
-      <Input type="text" value={number} setvalue={setNumber} width={200} />
-      <p>{convertToWords(Number(number))}</p>
-      <br />
-      {/* LOCAL SANDBOX: REMOVE IN PRODUCTION!!!*/}
-      <button
-        onClick={() =>
-          setNumber(
-            parseInt(
-              "0" +
-                Array(Math.round(Math.random() * 12))
-                  .fill(0)
-                  .map(() => [0, 1, 2, 9][Math.round(Math.random() * 3)])
-                  .join("")
-            ).toString()
-          )
-        }
-      >
-        random
-      </button>
-    </div>
+    <CounterContentContainer
+      useBuiltInStyle
+      inputs={
+        <div>
+          <label>Įveskite sumą</label>
+          <Input type="text" value={number} setvalue={setNumber} width={200} />
+        </div>
+      }
+      outputs={
+        <div>
+          <p>{convertToWords(Number(number))}</p>
+        </div>
+      }
+    />
   );
 }
 

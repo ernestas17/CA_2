@@ -13,6 +13,8 @@ import {
   SyledRadioWrapper,
 } from './styles';
 import { StyledFieldWithLabel } from '../../molecules/CounterContentContainer/styles';
+import Select from '../../atoms/Select';
+import { SelectItem } from '../../atoms/Select/Select';
 
 const IndividActivTaxCalcualtor = () => {
   // useState for inputs
@@ -191,12 +193,15 @@ const IndividActivTaxCalcualtor = () => {
       inputs={
         <>
           <StyledFieldWithLabel>
+            <label className='boldLabel'>Skaičiuoja už 2023 m.</label>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
             <label className='boldLabel'>Pajamos</label>
             <Input
               type='number'
               value={income}
               setvalue={setIncome}
-              placeholder='Pajamos'
+              placeholder='0'
               width={250}
             />
           </StyledFieldWithLabel>
@@ -207,7 +212,7 @@ const IndividActivTaxCalcualtor = () => {
               type='number'
               value={costsIncurred}
               setvalue={setCostsIncurred}
-              placeholder='Patirtos sąnaudos'
+              placeholder='0'
               width={250}
             />
           </StyledFieldWithLabel>
@@ -218,7 +223,7 @@ const IndividActivTaxCalcualtor = () => {
               type='number'
               value={paidVSD}
               setvalue={setPaidVSD}
-              placeholder='Sumokėtas VSD'
+              placeholder='0'
               width={250}
             />
           </StyledFieldWithLabel>
@@ -229,7 +234,7 @@ const IndividActivTaxCalcualtor = () => {
               type='number'
               value={paidPSD}
               setvalue={setPaidPSD}
-              placeholder='Sumokėtas PSD'
+              placeholder='0'
               width={250}
             />
           </StyledFieldWithLabel>

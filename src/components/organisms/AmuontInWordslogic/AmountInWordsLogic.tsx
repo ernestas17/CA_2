@@ -152,6 +152,7 @@ function AmountInWordsLogic() {
               value={number}
               setvalue={setNumber}
               width={250}
+              placeholder='0'
             />
           </StyledFieldWithLabel>
 

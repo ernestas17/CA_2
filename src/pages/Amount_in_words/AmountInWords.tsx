@@ -1,8 +1,12 @@
+import AmountInWordsLogic from "../../components/organisms/AmuontInWordslogic";
 
 const AmountInWords = () => {
   return (
-    <div>AmountInWords</div>
-  )
-}
+    <div>
+      <h1>Suma žodžiais</h1>
+      <AmountInWordsLogic />
+    </div>
+  );
+};
 
-export default AmountInWords
+export default AmountInWords;

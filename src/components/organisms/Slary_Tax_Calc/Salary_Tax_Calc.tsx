@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react';
 import Input from '../../atoms/Input';
-import RadioWrapper from '../../atoms/Radio';
 import CounterContentContainer from '../../molecules/CounterContentContainer';
 import { RadioItem } from '../../atoms/Radio/Radio';
 import { StyledFieldWithLabel } from '../../molecules/CounterContentContainer/styles';
-import { SyledRadioWithLabel, StyledFieldWithLabelContainer } from './styles';
+import {
+  SyledRadioWithLabel,
+  SyledRadioWrapper,
+  StyledOutputContainer,
+  StyledTitleRow,
+} from '../IndividualActivityTaxCalculator/styles';
+
+import { StyledFieldWithLabelContainer } from './styles';
 
 interface CalculatedSalaryDetails {
   bruttoSalary: number;
@@ -210,185 +216,160 @@ const Salary_Tax_Calc = () => {
       useBuiltInStyle
       inputs={
         <>
-          <div>
-            <div style={{ display: 'flex', gap: '55px' }}>
-              <SyledRadioWithLabel style={{ marginBottom: '20px' }}>
-                <label>Atlyginimas</label>
-                <RadioWrapper>
-                  <RadioItem
-                    label='ant popieriaus'
-                    name='salaryType'
-                    checked={salaryType === 'ant popieriaus'}
-                    onChange={handleSalaryTypeChange}
-                    value='ant popieriaus'
-                  />
-                  <RadioItem
-                    label='į rankas'
-                    name='salaryType'
-                    checked={salaryType === 'į rankas'}
-                    onChange={handleSalaryTypeChange}
-                    value='į rankas'
-                  />
-                </RadioWrapper>
-              </SyledRadioWithLabel>
-              <div>
-                <label>
-                  {salaryType === 'ant popieriaus'
-                    ? '"Ant popieriaus"'
-                    : '"Į rankas"'}
-                </label>
-                {salaryType === 'ant popieriaus' ? (
-                  <Input
-                    type='text'
-                    value={Value1}
-                    setvalue={setValue1}
-                    placeholder='Salary'
-                    width={200}
-                  />
-                ) : (
-                  <Input
-                    type='text'
-                    value={Value2}
-                    setvalue={setValue2}
-                    placeholder='Salary'
-                    width={200}
-                  />
-                )}
-              </div>
-            </div>
+          <SyledRadioWithLabel>
+            <label className='boldLabel'>Atlyginimas</label>
+            <SyledRadioWrapper>
+              <RadioItem
+                label='ant popieriaus'
+                name='salaryType'
+                checked={salaryType === 'ant popieriaus'}
+                onChange={handleSalaryTypeChange}
+                value='ant popieriaus'
+              />
+              <RadioItem
+                label='į rankas'
+                name='salaryType'
+                checked={salaryType === 'į rankas'}
+                onChange={handleSalaryTypeChange}
+                value='į rankas'
+              />
+            </SyledRadioWrapper>
+          </SyledRadioWithLabel>
+          <StyledFieldWithLabel>
+            <label className='boldLabel'>
+              {salaryType === 'ant popieriaus'
+                ? '"Ant popieriaus"'
+                : '"Į rankas"'}
+            </label>
+            {salaryType === 'ant popieriaus' ? (
+              <Input
+                type='text'
+                value={Value1}
+                setvalue={setValue1}
+                placeholder='Salary'
+                width={250}
+              />
+            ) : (
+              <Input
+                type='text'
+                value={Value2}
+                setvalue={setValue2}
+                placeholder='Salary'
+                width={250}
+              />
+            )}
+          </StyledFieldWithLabel>
 
-            <SyledRadioWithLabel style={{ marginBottom: '20px' }}>
-              <label>Kaip skaičiuoti NPD?</label>
-              <RadioWrapper>
-                <RadioItem
-                  label='paskaičiuos sistema'
-                  name='npdCalculationType'
-                  checked={npdType === 'paskaičiuos sistema'}
-                  onChange={handleNpdTypeChange}
-                  value='paskaičiuos sistema'
-                />
-                <RadioItem
-                  label='netaikyti NPD'
-                  name='npdCalculationType'
-                  checked={npdType === 'netaikyti NPD'}
-                  onChange={handleNpdTypeChange}
-                  value='netaikyti NPD'
-                />
-              </RadioWrapper>
-            </SyledRadioWithLabel>
-            <SyledRadioWithLabel>
-              <label>Kaupiu pensijai papildomai 3%</label>
-              <RadioWrapper>
-                <RadioItem
-                  label='kaupiu'
-                  name='pensionCalculationType'
-                  checked={pensionType === 'kaupiu'}
-                  onChange={handleForPensionTypeChange}
-                  value='kaupiu'
-                />
-                <RadioItem
-                  label='nekaupiu'
-                  name='pensionCalculationType'
-                  checked={pensionType === 'nekaupiu'}
-                  onChange={handleForPensionTypeChange}
-                  value='nekaupiu'
-                />
-              </RadioWrapper>
-            </SyledRadioWithLabel>
-          </div>
+          <SyledRadioWithLabel>
+            <label className='boldLabel'>Kaip skaičiuoti NPD?</label>
+            <SyledRadioWrapper>
+              <RadioItem
+                label='paskaičiuos sistema'
+                name='npdCalculationType'
+                checked={npdType === 'paskaičiuos sistema'}
+                onChange={handleNpdTypeChange}
+                value='paskaičiuos sistema'
+              />
+              <RadioItem
+                label='netaikyti NPD'
+                name='npdCalculationType'
+                checked={npdType === 'netaikyti NPD'}
+                onChange={handleNpdTypeChange}
+                value='netaikyti NPD'
+              />
+            </SyledRadioWrapper>
+          </SyledRadioWithLabel>
+          <SyledRadioWithLabel>
+            <label className='boldLabel'>Kaupiu pensijai papildomai 3%</label>
+            <SyledRadioWrapper>
+              <RadioItem
+                label='kaupiu'
+                name='pensionCalculationType'
+                checked={pensionType === 'kaupiu'}
+                onChange={handleForPensionTypeChange}
+                value='kaupiu'
+              />
+              <RadioItem
+                label='nekaupiu'
+                name='pensionCalculationType'
+                checked={pensionType === 'nekaupiu'}
+                onChange={handleForPensionTypeChange}
+                value='nekaupiu'
+              />
+            </SyledRadioWrapper>
+          </SyledRadioWithLabel>
         </>
       }
       outputs={
         <>
-          <StyledFieldWithLabelContainer>
-            <StyledFieldWithLabel
-              style={{
-                backgroundColor: '#68a5e6',
-              }}
-            >
-              <label style={{ padding: '10px' }}>
-                Priskaičiuotas atlyginimas "ant popieriaus"
-              </label>
-              <p style={{ padding: '10px' }}>
-                {salaryType === 'ant popieriaus'
-                  ? ` ${
-                      getNumberOrZero(getOutputValue()) &&
-                      parseFloat(getOutputValue()).toFixed(2)
-                    }`
-                  : ` ${
-                      getNumberOrZero(calculatedSalaryDetails.bruttoSalary) &&
-                      calculatedSalaryDetails.bruttoSalary.toFixed(2)
-                    }`}
-              </p>
-            </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label>Priskaičiuotas atlyginimas "ant popieriaus"</label>
+            <p>
+              {salaryType === 'ant popieriaus'
+                ? ` ${
+                    getNumberOrZero(getOutputValue()) &&
+                    parseFloat(getOutputValue()).toFixed(2)
+                  }`
+                : ` ${
+                    getNumberOrZero(calculatedSalaryDetails.bruttoSalary) &&
+                    calculatedSalaryDetails.bruttoSalary.toFixed(2)
+                  }`}
+            </p>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label>Pritaikytas NPD</label>
+            <p>{calculatedSalaryDetails.npd}</p>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label>Pajamų mokestis 20 %</label>
+            <p>
+              {getNumberOrZero(calculatedSalaryDetails.gpm) &&
+                calculatedSalaryDetails.gpm.toFixed(2)}
+            </p>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label>Sodra. Sveikatos draudimas 6.98 %</label>
+            <p>
+              {getNumberOrZero(calculatedSalaryDetails.sodra1) &&
+                calculatedSalaryDetails.sodra1.toFixed(2)}
+            </p>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label>
+              Sodra. Pensijų ir soc. draudimas
+              {pensionType === 'nekaupiu' ? ` 12.52 %` : ` 15.52 %`}
+            </label>
+            <p>
+              {getNumberOrZero(calculatedSalaryDetails.sodra2) &&
+                calculatedSalaryDetails.sodra2.toFixed(2)}
+            </p>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label>Išmokamas atlyginimas "į rankas"</label>
+            <p>
+              {getNumberOrZero(calculatedSalaryDetails.nettosalary) &&
+                calculatedSalaryDetails.nettosalary.toFixed(2)}
+            </p>
+          </StyledFieldWithLabel>
+          <StyledOutputContainer>
+            <StyledTitleRow>Darbdavio sumokami mokesčiai:</StyledTitleRow>
+
             <StyledFieldWithLabel>
-              <label style={{ padding: '10px' }}>Pritaikytas NPD</label>
-              <p style={{ padding: '10px' }}>{calculatedSalaryDetails.npd}</p>
-            </StyledFieldWithLabel>
-            <StyledFieldWithLabel>
-              <label style={{ padding: '10px' }}>Pajamų mokestis 20 %</label>
-              <p style={{ padding: '10px' }}>
-                {getNumberOrZero(calculatedSalaryDetails.gpm) &&
-                  calculatedSalaryDetails.gpm.toFixed(2)}
-              </p>
-            </StyledFieldWithLabel>
-            <StyledFieldWithLabel>
-              <label style={{ padding: '10px' }}>
-                Sodra. Sveikatos draudimas 6.98 %
-              </label>
-              <p style={{ padding: '10px' }}>
-                {getNumberOrZero(calculatedSalaryDetails.sodra1) &&
-                  calculatedSalaryDetails.sodra1.toFixed(2)}
-              </p>
-            </StyledFieldWithLabel>
-            <StyledFieldWithLabel>
-              <label style={{ padding: '10px' }}>
-                Sodra. Pensijų ir soc. draudimas
-                {pensionType === 'nekaupiu' ? ` 12.52 %` : ` 15.52 %`}
-              </label>
-              <p style={{ padding: '10px' }}>
-                {getNumberOrZero(calculatedSalaryDetails.sodra2) &&
-                  calculatedSalaryDetails.sodra2.toFixed(2)}
-              </p>
-            </StyledFieldWithLabel>
-            <StyledFieldWithLabel
-              style={{
-                backgroundColor: '#ff9a0c',
-              }}
-            >
-              <label style={{ padding: '10px' }}>
-                Išmokamas atlyginimas "į rankas"
-              </label>
-              <p style={{ padding: '10px' }}>
-                {getNumberOrZero(calculatedSalaryDetails.nettosalary) &&
-                  calculatedSalaryDetails.nettosalary.toFixed(2)}
-              </p>
-            </StyledFieldWithLabel>
-            <StyledFieldWithLabel>
-              <label style={{ padding: '10px' }}>
-                Darbdavio sumokami mokesčiai:
-              </label>
-            </StyledFieldWithLabel>
-            <StyledFieldWithLabel>
-              <label style={{ padding: '10px' }}>Sodra 1.77 %</label>
-              <p style={{ padding: '10px' }}>
+              <label>Sodra 1.77 %</label>
+              <p>
                 {getNumberOrZero(calculatedSalaryDetails.sodraEmpl) &&
                   calculatedSalaryDetails.sodraEmpl.toFixed(2)}
               </p>
             </StyledFieldWithLabel>
 
-            <StyledFieldWithLabel
-              style={{
-                backgroundColor: '#68a5e6',
-              }}
-            >
-              <label style={{ padding: '10px' }}>Visa darbo vietos kaina</label>
-              <p style={{ padding: '10px' }}>
+            <StyledFieldWithLabel>
+              <label>Visa darbo vietos kaina</label>
+              <p>
                 {getNumberOrZero(calculatedSalaryDetails.workplaceCost) &&
                   calculatedSalaryDetails.workplaceCost.toFixed(2)}
               </p>
             </StyledFieldWithLabel>
-          </StyledFieldWithLabelContainer>
+          </StyledOutputContainer>
         </>
       }
     ></CounterContentContainer>

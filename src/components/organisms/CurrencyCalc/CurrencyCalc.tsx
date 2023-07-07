@@ -101,7 +101,7 @@ const CurrencyCalc = () => {
       inputs={
         <>
           <StyledFieldWithLabel>
-            <label>Turima valiuta</label>
+            <label className='boldLabel'>Turima valiuta</label>
             <Select
               setvalue={setInputCurrency}
               initialIndex={0}
@@ -112,7 +112,7 @@ const CurrencyCalc = () => {
             </Select>
           </StyledFieldWithLabel>
           <StyledFieldWithLabel>
-            <label>Suma {inputCurrency && inputCurrency.toUpperCase()}</label>
+            <label className='boldLabel'>Suma {inputCurrency && inputCurrency.toUpperCase()}</label>
             <Input
               type='number'
               value={inputValue}
@@ -120,7 +120,7 @@ const CurrencyCalc = () => {
             ></Input>
           </StyledFieldWithLabel>
           <StyledFieldWithLabel>
-            <label>Norima valiuta</label>
+            <label className='boldLabel'>Norima valiuta</label>
             <Select
               setvalue={setOutputCurrency}
               initialIndex={0}

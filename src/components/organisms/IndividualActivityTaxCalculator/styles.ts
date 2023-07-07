@@ -16,22 +16,23 @@ export const SyledRadioWithLabel = styled.div`
   gap: 0.25em;
 `;
 
-export const StyledTitleRow1 = styled.div`
+export const SyledRadioWrapper = styled.div`
+  display: flex;
+  gap: 1.5rem;
+`;
+
+export const StyledOutputContainer = styled.div`
+ border-bottom: none !important;
+`;
+
+export const StyledTitleRow = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  background-color: #ff9a0c;
-  color: white;
+  /* background-color: rgb(62, 142, 208);
+  color: rgb(255, 255, 255); */
   padding: 0.25rem;
-
-  
-`;
-
-export const StyledTitleRow2 = styled.div`
-  width: 100%;
-  background-color: #68a5e6;
-  color: white;
-  padding: 0.25rem;
+  font-weight: 600;
 `;
 
 export const StyledLableColumn = styled.label`

@@ -1,10 +1,12 @@
+import { StyledCalcSection } from '../../components/molecules/CounterContentContainer/styles';
 import IndividActivTaxCalcualtor from '../../components/organisms/IndividualActivityTaxCalculator';
 
 const IndividualActivityTaxCalc = () => {
   return (
-    <div>
+    <StyledCalcSection>
+      <h1>Individualios veiklos skaičiuoklė</h1>
       <IndividActivTaxCalcualtor />
-    </div>
+    </StyledCalcSection>
   );
 };
 

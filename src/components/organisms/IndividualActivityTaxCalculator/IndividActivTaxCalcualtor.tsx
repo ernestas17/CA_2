@@ -1,8 +1,17 @@
 import { useEffect, useState } from 'react';
 import CounterContentContainer from '../../molecules/CounterContentContainer';
 import Input from '../../atoms/Input';
-import RadioWrapper, { RadioItem } from '../../atoms/Radio/Radio';
-import { StyledColumnLable, StyledColumnNum, StyledContentContainer, StyledLableColumn, StyledRow, StyledTitleRow1, StyledTitleRow2, SyledRadioWithLabel, SyledRadioWrapper } from './styles';
+import { RadioItem } from '../../atoms/Radio/Radio';
+import {
+  StyledColumnLable,
+  StyledColumnNum,
+  StyledLableColumn,
+  StyledOutputContainer,
+  StyledRow,
+  StyledTitleRow,
+  SyledRadioWithLabel,
+  SyledRadioWrapper,
+} from './styles';
 import { StyledFieldWithLabel } from '../../molecules/CounterContentContainer/styles';
 
 const IndividActivTaxCalcualtor = () => {
@@ -177,137 +186,143 @@ const IndividActivTaxCalcualtor = () => {
   };
 
   return (
-    <StyledContentContainer>
-       <h1>Individualios veiklos skaičiuoklė</h1>
-      <CounterContentContainer
-        useBuiltInStyle
-        inputs={
-          <>
-            <StyledFieldWithLabel>
-              <label>Pajamos</label>
-              <Input
-                type='number'
-                value={income}
-                setvalue={setIncome}
-                placeholder='Pajamos'
-                width={300}
+    <CounterContentContainer
+      useBuiltInStyle
+      inputs={
+        <>
+          <StyledFieldWithLabel>
+            <label className='boldLabel'>Pajamos</label>
+            <Input
+              type='number'
+              value={income}
+              setvalue={setIncome}
+              placeholder='Pajamos'
+              width={250}
+            />
+          </StyledFieldWithLabel>
+
+          <StyledFieldWithLabel>
+            <label className='boldLabel'>Patirtos sąnaudos</label>
+            <Input
+              type='number'
+              value={costsIncurred}
+              setvalue={setCostsIncurred}
+              placeholder='Patirtos sąnaudos'
+              width={250}
+            />
+          </StyledFieldWithLabel>
+
+          <StyledFieldWithLabel>
+            <label className='boldLabel'>Sumokėtas VSD</label>
+            <Input
+              type='number'
+              value={paidVSD}
+              setvalue={setPaidVSD}
+              placeholder='Sumokėtas VSD'
+              width={250}
+            />
+          </StyledFieldWithLabel>
+
+          <StyledFieldWithLabel>
+            <label className='boldLabel'>Sumokėtas PSD</label>
+            <Input
+              type='number'
+              value={paidPSD}
+              setvalue={setPaidPSD}
+              placeholder='Sumokėtas PSD'
+              width={250}
+            />
+          </StyledFieldWithLabel>
+
+          <SyledRadioWithLabel>
+            <label className='boldLabel'>Sąnaudų skaičiavimas</label>
+            <SyledRadioWrapper>
+              <RadioItem
+                label='30% nuo pajamų'
+                value='30% nuo pajamų'
+                name='costCalculation'
+                checked={selectedCostCalculation === '30% nuo pajamų'}
+                onChange={handleCostCalculationChange}
               />
-            </StyledFieldWithLabel>
-
-            <StyledFieldWithLabel>
-              <label>Patirtos sąnaudos</label>
-              <Input
-                type='number'
-                value={costsIncurred}
-                setvalue={setCostsIncurred}
-                placeholder='Patirtos sąnaudos'
-                width={300}
+              <RadioItem
+                label='Faktiškai patirtos'
+                value='Faktiškai patirtos'
+                name='costCalculation'
+                checked={selectedCostCalculation === 'Faktiškai patirtos'}
+                onChange={handleCostCalculationChange}
               />
-            </StyledFieldWithLabel>
+            </SyledRadioWrapper>
+          </SyledRadioWithLabel>
 
-            <StyledFieldWithLabel>
-              <label>Sumokėtas VSD</label>
-              <Input
-                type='number'
-                value={paidVSD}
-                setvalue={setPaidVSD}
-                placeholder='Sumokėtas VSD'
-                width={300}
+          <SyledRadioWithLabel>
+            <label className='boldLabel'>Kaupiu pensijai papildomai 3%?</label>
+            <SyledRadioWrapper>
+              <RadioItem
+                label='Nekaupiu'
+                value='Ne'
+                name='savingAdditional'
+                checked={savingAdditional === 'Ne'}
+                onChange={handleSavingAdditionalChange}
               />
-            </StyledFieldWithLabel>
-
-            <StyledFieldWithLabel>
-              <label>Sumokėtas PSD</label>
-              <Input
-                type='number'
-                value={paidPSD}
-                setvalue={setPaidPSD}
-                placeholder='Sumokėtas PSD'
-                width={300}
+              <RadioItem
+                label='Kaupiu'
+                value='Taip'
+                name='savingAdditional'
+                checked={savingAdditional === 'Taip'}
+                onChange={handleSavingAdditionalChange}
               />
-            </StyledFieldWithLabel>
-
-            <SyledRadioWithLabel>
-              <label>Sąnaudų skaičiavimas</label>
-              <RadioWrapper>
-                <RadioItem
-                  label='30% nuo pajamų'
-                  value='30% nuo pajamų'
-                  name='costCalculation'
-                  checked={selectedCostCalculation === '30% nuo pajamų'}
-                  onChange={handleCostCalculationChange}
-                />
-                <RadioItem
-                  label='Faktiškai patirtos'
-                  value='Faktiškai patirtos'
-                  name='costCalculation'
-                  checked={selectedCostCalculation === 'Faktiškai patirtos'}
-                  onChange={handleCostCalculationChange}
-                />
-              </RadioWrapper>
-            </SyledRadioWithLabel>
-
-            <SyledRadioWithLabel>
-              <label>Ar kaupiate pensijai papildomai 3%?</label>
-              <RadioWrapper>
-                <RadioItem
-                  label='Ne'
-                  value='Ne'
-                  name='savingAdditional'
-                  checked={savingAdditional === 'Ne'}
-                  onChange={handleSavingAdditionalChange}
-                />
-                <RadioItem
-                  label='Taip'
-                  value='Taip'
-                  name='savingAdditional'
-                  checked={savingAdditional === 'Taip'}
-                  onChange={handleSavingAdditionalChange}
-                />
-              </RadioWrapper>
-            </SyledRadioWithLabel>
-          </>
-        }
-        outputs={
-          <div>
-            <StyledFieldWithLabel>
-              <label>Gautos pajamos:</label>
-              <p>{getStringOrEmpty(getNumberOrZero(incomeReceived))}</p>
-            </StyledFieldWithLabel>
-            <StyledFieldWithLabel>
-              <label>Patirtos sąnaudos:</label>
-              <p>
-                {getStringOrEmpty(getNumberOrZero(calculatedCostsIncurred))}
-              </p>
-            </StyledFieldWithLabel>
-            <StyledFieldWithLabel>
-              <label>Apmokestinamosios pajamos:</label>
-              <p>{getStringOrEmpty(getNumberOrZero(taxableIncome))}</p>
-            </StyledFieldWithLabel>
-            <StyledFieldWithLabel>
-              <label>
-                „Sodros“ įmokų bazė (suma nuo kurios skaičiuojamos VSD ir PSD
-                įmokos):
-              </label>
-              <p>{getStringOrEmpty(getNumberOrZero(contributionBase))}</p>
-            </StyledFieldWithLabel>
-
-            <StyledTitleRow1>
+            </SyledRadioWrapper>
+          </SyledRadioWithLabel>
+        </>
+      }
+      outputs={
+        <>
+          <StyledFieldWithLabel>
+            <label>Gautos pajamos:</label>
+            <p>{getStringOrEmpty(getNumberOrZero(incomeReceived))}</p>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label>Patirtos sąnaudos:</label>
+            <p>{getStringOrEmpty(getNumberOrZero(calculatedCostsIncurred))}</p>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label>Apmokestinamosios pajamos:</label>
+            <p>{getStringOrEmpty(getNumberOrZero(taxableIncome))}</p>
+          </StyledFieldWithLabel>
+          <StyledFieldWithLabel>
+            <label style={{ maxWidth: '70%' }}>
+              „Sodros“ įmokų bazė (suma nuo kurios skaičiuojamos VSD ir PSD
+              įmokos):
+            </label>
+            <p>{getStringOrEmpty(getNumberOrZero(contributionBase))}</p>
+          </StyledFieldWithLabel>
+          <StyledOutputContainer>
+            <StyledTitleRow>
               <StyledLableColumn>Sodra</StyledLableColumn>
               <StyledColumnLable>{VSDLabel()}</StyledColumnLable>
               <StyledColumnLable>PSD 6.98%</StyledColumnLable>
               <StyledColumnLable>Iš viso</StyledColumnLable>
-            </StyledTitleRow1>
+            </StyledTitleRow>
             <StyledRow>
               <StyledLableColumn>Priskaičiuota:</StyledLableColumn>
-              <StyledColumnNum>{getStringOrEmpty(getNumberOrZero(calculatedVSD))}</StyledColumnNum>
-              <StyledColumnNum>{getStringOrEmpty(getNumberOrZero(calculatedPSD))}</StyledColumnNum>
-              <StyledColumnNum>{getStringOrEmpty(getNumberOrZero(sodraCalculatedTotal))}</StyledColumnNum>
+              <StyledColumnNum>
+                {getStringOrEmpty(getNumberOrZero(calculatedVSD))}
+              </StyledColumnNum>
+              <StyledColumnNum>
+                {getStringOrEmpty(getNumberOrZero(calculatedPSD))}
+              </StyledColumnNum>
+              <StyledColumnNum>
+                {getStringOrEmpty(getNumberOrZero(sodraCalculatedTotal))}
+              </StyledColumnNum>
             </StyledRow>
             <StyledRow>
               <StyledLableColumn>Sumokėta:</StyledLableColumn>
-              <StyledColumnNum>{getStringOrEmpty(getNumberOrZero(paidVSD))}</StyledColumnNum>
-              <StyledColumnNum>{getStringOrEmpty(getNumberOrZero(paidPSD))}</StyledColumnNum>
+              <StyledColumnNum>
+                {getStringOrEmpty(getNumberOrZero(paidVSD))}
+              </StyledColumnNum>
+              <StyledColumnNum>
+                {getStringOrEmpty(getNumberOrZero(paidPSD))}
+              </StyledColumnNum>
               <StyledColumnNum>
                 {getStringOrEmpty(
                   getNumberOrZero(paidVSD) + getNumberOrZero(paidPSD)
@@ -319,25 +334,32 @@ const IndividActivTaxCalcualtor = () => {
               <StyledColumnNum>
                 {isNaN(Number(calculatedVSD))
                   ? '0.00'
-                  : (parseFloat(calculatedVSD) - getNumberOrZero(paidVSD)).toFixed(2)}
+                  : (
+                      parseFloat(calculatedVSD) - getNumberOrZero(paidVSD)
+                    ).toFixed(2)}
               </StyledColumnNum>
               <StyledColumnNum>
                 {isNaN(Number(calculatedPSD))
                   ? '0.00'
-                  : (parseFloat(calculatedPSD) - getNumberOrZero(paidPSD)).toFixed(2)}
+                  : (
+                      parseFloat(calculatedPSD) - getNumberOrZero(paidPSD)
+                    ).toFixed(2)}
               </StyledColumnNum>
               <StyledColumnNum>
                 {isNaN(Number(sodraCalculatedTotal))
                   ? '0.00'
-                  : (parseFloat(sodraCalculatedTotal) -
-                    (getNumberOrZero(paidVSD) + getNumberOrZero(paidPSD))).toFixed(2)}
+                  : (
+                      parseFloat(sodraCalculatedTotal) -
+                      (getNumberOrZero(paidVSD) + getNumberOrZero(paidPSD))
+                    ).toFixed(2)}
               </StyledColumnNum>
             </StyledRow>
-
-            <StyledTitleRow1>
+          </StyledOutputContainer>
+          <StyledOutputContainer>
+            <StyledTitleRow>
               <label>Gyventojų pajamų mokestis</label>
               <label>Suma</label>
-            </StyledTitleRow1>
+            </StyledTitleRow>
             <StyledFieldWithLabel>
               <label>Pajamų mokesčio kreditas (GMP įst. 18 str.):</label>
               <p>{getStringOrEmpty(getNumberOrZero(incomeTaxCredit))}</p>
@@ -346,10 +368,11 @@ const IndividActivTaxCalcualtor = () => {
               <label>GPM</label>
               <p> {getStringOrEmpty(getNumberOrZero(gmp))}</p>
             </StyledFieldWithLabel>
-
-            <StyledTitleRow2>
+          </StyledOutputContainer>
+          <StyledOutputContainer>
+            <StyledTitleRow>
               <label>Iš viso</label>
-            </StyledTitleRow2>
+            </StyledTitleRow>
             <StyledFieldWithLabel>
               <label>Iš viso mokesčių:</label>
               <p>{getStringOrEmpty(getNumberOrZero(totalFees))}</p>
@@ -358,10 +381,10 @@ const IndividActivTaxCalcualtor = () => {
               <label>Grynasis pelnas:</label>
               <p>{getStringOrEmpty(getNumberOrZero(netProfit))}</p>
             </StyledFieldWithLabel>
-          </div>
-        }
-      />
-    </StyledContentContainer>
+          </StyledOutputContainer>
+        </>
+      }
+    />
   );
 };
 

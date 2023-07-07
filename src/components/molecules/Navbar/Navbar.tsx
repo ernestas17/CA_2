@@ -18,11 +18,13 @@ function NavbarBurger({
 }) {
   return (
     <StyledBurger
-      className='navbar-burger'
+      className={`navbar-burger${isActive ? ' is-active' : ''}`}
       $isActive={isActive}
       onClick={onClick}
     >
-      <i className={`fa-solid fa-${isActive ? 'xmark' : 'bars'}`}></i>
+      <span></span>
+      <span></span>
+      <span></span>
     </StyledBurger>
   );
 }
@@ -45,7 +47,7 @@ export default function Navbar({ children }: { children: ReactNode }) {
         <NavbarBurger
           isActive={isActive}
           onClick={() => setIsActive((prev) => !prev)}
-        ></NavbarBurger>
+        />
       </div>
       <div
         className='navbar-menu'

@@ -13,6 +13,90 @@ export const StyledNav = styled.nav`
     display: none;
   }
 
+  .navbar-brand {
+    align-items: stretch;
+    display: flex;
+    flex-shrink: 0;
+    min-height: 3.25rem;
+
+    margin-left: -0.75rem;
+
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .navbar-burger {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    border: none;
+    color: currentColor;
+    font-family: inherit;
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+
+    color: rgba(0, 0, 0, 0.7);
+
+    color: #4a4a4a;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: block;
+    height: 3.25rem;
+    position: relative;
+    width: 3.25rem;
+    margin-left: auto;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    span {
+      background-color: currentColor;
+      display: block;
+      height: 1px;
+      left: calc(50% - 8px);
+      position: absolute;
+      transform-origin: center;
+      transition-duration: 86ms;
+      transition-property: background-color, opacity, transform;
+      transition-timing-function: ease-out;
+      width: 16px;
+
+      &:nth-child(1) {
+        top: calc(50% - 6px);
+      }
+
+      &:nth-child(2) {
+        top: calc(50% - 1px);
+      }
+
+      &:nth-child(3) {
+        top: calc(50% + 4px);
+      }
+    }
+
+    &.is-active {
+      span {
+        &:nth-child(1) {
+          transform: translateY(5px) rotate(45deg);
+        }
+
+        &:nth-child(2) {
+          opacity: 0;
+        }
+
+        &:nth-child(3) {
+          transform: translateY(-5px) rotate(-45deg);
+        }
+      }
+    }
+  }
+
   @media screen and (max-width: 1023px) {
     .navbar-menu {
       background-color: white;
@@ -22,10 +106,6 @@ export const StyledNav = styled.nav`
       &.is-active {
         display: block;
       }
-    }
-
-    .navbar-burger {
-      display: initial;
     }
   }
 
@@ -64,6 +144,10 @@ export const StyledNav = styled.nav`
 
   .navbar-menu {
     flex-grow: 0;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   .navbar-menu,

@@ -216,6 +216,9 @@ const Salary_Tax_Calc = () => {
       useBuiltInStyle
       inputs={
         <>
+          <StyledFieldWithLabel className='boldLabel'>
+            <label>Skaičiuoja už 2023 m.</label>
+          </StyledFieldWithLabel>
           <SyledRadioWithLabel>
             <label className='boldLabel'>Atlyginimas</label>
             <SyledRadioWrapper>
@@ -246,7 +249,7 @@ const Salary_Tax_Calc = () => {
                 type='text'
                 value={Value1}
                 setvalue={setValue1}
-                placeholder='Salary'
+                placeholder='0'
                 width={250}
               />
             ) : (
@@ -254,7 +257,7 @@ const Salary_Tax_Calc = () => {
                 type='text'
                 value={Value2}
                 setvalue={setValue2}
-                placeholder='Salary'
+                placeholder='0'
                 width={250}
               />
             )}

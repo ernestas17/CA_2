@@ -6,7 +6,8 @@ import { StyledFieldWithLabel } from '../../molecules/CounterContentContainer/st
 import {
   SyledRadioWithLabel,
   SyledRadioWrapper,
-  StyledOutputContainer, StyledTitleRow,
+  StyledOutputContainer,
+  StyledTitleRow,
 } from '../IndividualActivityTaxCalculator/styles';
 
 import { StyledFieldWithLabelContainer } from './styles';
@@ -216,7 +217,7 @@ const Salary_Tax_Calc = () => {
       inputs={
         <>
           <SyledRadioWithLabel>
-            <label>Atlyginimas</label>
+            <label className='boldLabel'>Atlyginimas</label>
             <SyledRadioWrapper>
               <RadioItem
                 label='ant popieriaus'
@@ -235,7 +236,7 @@ const Salary_Tax_Calc = () => {
             </SyledRadioWrapper>
           </SyledRadioWithLabel>
           <StyledFieldWithLabel>
-            <label>
+            <label className='boldLabel'>
               {salaryType === 'ant popieriaus'
                 ? '"Ant popieriaus"'
                 : '"Į rankas"'}
@@ -260,7 +261,7 @@ const Salary_Tax_Calc = () => {
           </StyledFieldWithLabel>
 
           <SyledRadioWithLabel>
-            <label>Kaip skaičiuoti NPD?</label>
+            <label className='boldLabel'>Kaip skaičiuoti NPD?</label>
             <SyledRadioWrapper>
               <RadioItem
                 label='paskaičiuos sistema'
@@ -279,7 +280,7 @@ const Salary_Tax_Calc = () => {
             </SyledRadioWrapper>
           </SyledRadioWithLabel>
           <SyledRadioWithLabel>
-            <label>Kaupiu pensijai papildomai 3%</label>
+            <label className='boldLabel'>Kaupiu pensijai papildomai 3%</label>
             <SyledRadioWrapper>
               <RadioItem
                 label='kaupiu'
@@ -301,12 +302,7 @@ const Salary_Tax_Calc = () => {
       }
       outputs={
         <>
-          <StyledFieldWithLabel
-          // style={{
-          //   backgroundColor: 'rgb(62, 142, 208)',
-          //   color: 'rgb(255, 255, 255)'
-          // }}
-          >
+          <StyledFieldWithLabel>
             <label>Priskaičiuotas atlyginimas "ant popieriaus"</label>
             <p>
               {salaryType === 'ant popieriaus'
@@ -348,22 +344,16 @@ const Salary_Tax_Calc = () => {
                 calculatedSalaryDetails.sodra2.toFixed(2)}
             </p>
           </StyledFieldWithLabel>
-          <StyledFieldWithLabel
-          // style={{
-          //   backgroundColor: 'rgb(62, 142, 208)',
-          //   color: 'rgb(255, 255, 255)'
-          // }}
-          >
+          <StyledFieldWithLabel>
             <label>Išmokamas atlyginimas "į rankas"</label>
             <p>
               {getNumberOrZero(calculatedSalaryDetails.nettosalary) &&
                 calculatedSalaryDetails.nettosalary.toFixed(2)}
             </p>
           </StyledFieldWithLabel>
-          {/* <StyledOutputContainer> */}
-            <StyledFieldWithLabel>
-              <label>Darbdavio sumokami mokesčiai:</label>
-            </StyledFieldWithLabel>
+          <StyledOutputContainer>
+            <StyledTitleRow>Darbdavio sumokami mokesčiai:</StyledTitleRow>
+
             <StyledFieldWithLabel>
               <label>Sodra 1.77 %</label>
               <p>
@@ -372,19 +362,14 @@ const Salary_Tax_Calc = () => {
               </p>
             </StyledFieldWithLabel>
 
-            <StyledFieldWithLabel
-            // style={{
-            //   backgroundColor: 'rgb(62, 142, 208)',
-            //   color: 'rgb(255, 255, 255)'
-            // }}
-            >
+            <StyledFieldWithLabel>
               <label>Visa darbo vietos kaina</label>
               <p>
                 {getNumberOrZero(calculatedSalaryDetails.workplaceCost) &&
                   calculatedSalaryDetails.workplaceCost.toFixed(2)}
               </p>
             </StyledFieldWithLabel>
-          {/* </StyledOutputContainer> */}
+          </StyledOutputContainer>
         </>
       }
     ></CounterContentContainer>

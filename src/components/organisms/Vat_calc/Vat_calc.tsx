@@ -77,7 +77,7 @@ const Vat_calc = () => {
       inputs={
         <>
           <StyledFieldWithLabel>
-            <label>PVM tarifas</label>
+            <label className='boldLabel'>PVM tarifas</label>
             <Select setvalue={setSelectedVal}>
               <SelectItem value={21}>21%</SelectItem>
               <SelectItem value={9}>9%</SelectItem>
@@ -85,7 +85,7 @@ const Vat_calc = () => {
             </Select>
           </StyledFieldWithLabel>
           <StyledFieldWithLabel>
-            <label>Suma (be PVM)</label>
+            <label className='boldLabel'>Suma (be PVM)</label>
             <Input
               type='text'
               value={SumValueNoVat}
@@ -95,7 +95,7 @@ const Vat_calc = () => {
             />
           </StyledFieldWithLabel>
           <StyledFieldWithLabel>
-            <label>Bendra suma (su PVM)</label>
+            <label className='boldLabel'>Bendra suma (su PVM)</label>
             <Input
               type='text'
               value={AllSumValueWithVat}

@@ -191,7 +191,7 @@ const IndividActivTaxCalcualtor = () => {
       inputs={
         <>
           <StyledFieldWithLabel>
-            <label>Pajamos</label>
+            <label className='boldLabel'>Pajamos</label>
             <Input
               type='number'
               value={income}
@@ -202,7 +202,7 @@ const IndividActivTaxCalcualtor = () => {
           </StyledFieldWithLabel>
 
           <StyledFieldWithLabel>
-            <label>Patirtos sąnaudos</label>
+            <label className='boldLabel'>Patirtos sąnaudos</label>
             <Input
               type='number'
               value={costsIncurred}
@@ -213,7 +213,7 @@ const IndividActivTaxCalcualtor = () => {
           </StyledFieldWithLabel>
 
           <StyledFieldWithLabel>
-            <label>Sumokėtas VSD</label>
+            <label className='boldLabel'>Sumokėtas VSD</label>
             <Input
               type='number'
               value={paidVSD}
@@ -224,7 +224,7 @@ const IndividActivTaxCalcualtor = () => {
           </StyledFieldWithLabel>
 
           <StyledFieldWithLabel>
-            <label>Sumokėtas PSD</label>
+            <label className='boldLabel'>Sumokėtas PSD</label>
             <Input
               type='number'
               value={paidPSD}
@@ -235,7 +235,7 @@ const IndividActivTaxCalcualtor = () => {
           </StyledFieldWithLabel>
 
           <SyledRadioWithLabel>
-            <label>Sąnaudų skaičiavimas</label>
+            <label className='boldLabel'>Sąnaudų skaičiavimas</label>
             <SyledRadioWrapper>
               <RadioItem
                 label='30% nuo pajamų'
@@ -255,7 +255,7 @@ const IndividActivTaxCalcualtor = () => {
           </SyledRadioWithLabel>
 
           <SyledRadioWithLabel>
-            <label>Kaupiu pensijai papildomai 3%?</label>
+            <label className='boldLabel'>Kaupiu pensijai papildomai 3%?</label>
             <SyledRadioWrapper>
               <RadioItem
                 label='Nekaupiu'
